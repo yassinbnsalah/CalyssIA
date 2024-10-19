@@ -1,9 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Treatment
 from .forms import TreatmentForm
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.shortcuts import  get_object_or_404
 
 def treatment_list(request):
     treatments = Treatment.objects.all()  
@@ -29,7 +28,7 @@ class TreatmentCreateView(CreateView):
 class TreatmentUpdateView(UpdateView):
     model = Treatment
     form_class = TreatmentForm
-    template_name = 'treatment_form.html'
+    template_name = 'treatment_update_form.html'  # This will be a separate page for updating
     success_url = reverse_lazy('treatment_list')
 
 class TreatmentDeleteView(DeleteView):
@@ -40,12 +39,3 @@ class TreatmentDeleteView(DeleteView):
 def treatment_detail(request, pk):
     treatment = get_object_or_404(Treatment, pk=pk)
     return render(request, 'treatment_detail.html', {'treatment': treatment})
-
-class TreatmentDeleteView(DeleteView):
-    model = Treatment
-    success_url = reverse_lazy('treatment_list')
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        self.object.delete()
-        return redirect(self.success_url)

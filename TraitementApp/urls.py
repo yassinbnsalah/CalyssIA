@@ -7,5 +7,6 @@ urlpatterns = [
     path('treatments/<int:pk>/update/', TreatmentUpdateView.as_view(), name='treatment-update'),
     path('treatments/<int:pk>/delete/', TreatmentDeleteView.as_view(), name='treatment-delete'),
     path('treatments/<int:pk>/', treatment_detail, name='treatment-detail'),  # Add this line
+    path('treatments/<int:pk>/update/', TreatmentUpdateView.as_view(), name='treatment-update'),
 
 ]
