@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'assets/libs/bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/theme.min.css' %}">
+    <title>Treatment Details</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">{{ treatment.name }}</h1>
+        <p><strong>Description:</strong> {{ treatment.description }}</p>
+        <p><strong>Date Applied:</strong> {{ treatment.date_applied }}</p>
+        <p><strong>Success Rate (%):</strong> {{ treatment.success_rate }}</p>
+
+        <a href="{% url 'treatment-update' treatment.id %}" class="btn btn-info">Update Treatment</a>
+        <a href="{% url 'treatment-delete' treatment.id %}" class="btn btn-danger">Delete Treatment</a>
+        <a href="{% url 'treatment_list' %}" class="btn btn-secondary">Back to Treatments</a>
+    </div>
+</body>
+</html>
