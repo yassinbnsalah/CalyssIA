@@ -1,7 +1,0 @@
-<h1>Treatments</h1>
-<ul>
-    {% for treatment in treatments %}
-        <li><a href="{% url 'treatment_detail' treatment.id %}">{{ treatment.name }}</a></li>
-    {% endfor %}
-</ul>
-<a href="{% url 'treatment_create' %}">Add new treatment</a>

@@ -1,10 +1,9 @@
 from django.urls import path
-from .views import TreatmentListView, TreatmentDetailView, TreatmentCreateView, TreatmentUpdateView, TreatmentDeleteView
+from .views import treatment_list, create_treatment, TreatmentCreateView, TreatmentUpdateView, TreatmentDeleteView
 
 urlpatterns = [
-    path('treatments/', TreatmentListView.as_view(), name='treatment_list'),
-    path('treatments/<int:pk>/', TreatmentDetailView.as_view(), name='treatment_detail'),
-    path('treatments/create/', TreatmentCreateView.as_view(), name='treatment_create'),
-    path('treatments/<int:pk>/update/', TreatmentUpdateView.as_view(), name='treatment_update'),
-    path('treatments/<int:pk>/delete/', TreatmentDeleteView.as_view(), name='treatment_delete'),
+    path('treatments/', treatment_list, name='treatment_list'),
+    path('treatments/create/', create_treatment, name='treatment-create'),
+    path('treatments/<int:pk>/update/', TreatmentUpdateView.as_view(), name='treatment-update'),
+    path('treatments/<int:pk>/delete/', TreatmentDeleteView.as_view(), name='treatment-delete'),
 ]
