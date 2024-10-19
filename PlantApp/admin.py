@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from UserApp.models import RUser
+
 from .models import Plant, DiseaseDetection
 
 # Register the CustomUser model using the built-in UserAdmin

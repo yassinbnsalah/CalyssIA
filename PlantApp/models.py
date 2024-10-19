@@ -21,3 +21,4 @@ class DiseaseDetection(models.Model):
 
     def __str__(self):
         return f'{self.detected_disease} on {self.plant.name}'
+

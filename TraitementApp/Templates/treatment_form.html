@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Treatment</title>
+
+    <!-- Favicon icon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/favicon/favicon.ico' %}">
+
+    <!-- Libs CSS -->
+    <link href="{% static 'assets/fonts/feather/feather.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/libs/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'assets/css/theme.min.css' %}">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <!-- Card -->
+        <div class="card mb-3">
+            <div class="card-header border-bottom px-4 py-3">
+                <h4 class="mb-0">Add New Treatment</h4>
+            </div>
+
+            <!-- Card body -->
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- Treatment Name -->
+                    <div class="form-group mb-3">
+                        <label for="id_name" class="form-label">Treatment Name:</label>
+                        {{ form.name }}
+                        <small class="form-text text-muted">Enter the name of the treatment.</small>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="form-group mb-3">
+                        <label for="id_description" class="form-label">Description:</label>
+                        {{ form.description }}
+                        <small class="form-text text-muted">A brief description of the treatment.</small>
+                    </div>
+
+                    <!-- Success Rate -->
+                    <div class="form-group mb-3">
+                        <label for="id_success_rate" class="form-label">Success Rate:</label>
+                        {{ form.success_rate }}
+                        <small class="form-text text-muted">Enter the success rate (in percentage).</small>
+                    </div>
+
+                    <!-- Notes -->
+                    <div class="form-group mb-3">
+                        <label for="id_notes" class="form-label">Notes:</label>
+                        {{ form.notes }}
+                        <small class="form-text text-muted">Any additional notes about the treatment.</small>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary">Add Treatment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/theme.min.js' %}"></script>
+</body>
+</html>
