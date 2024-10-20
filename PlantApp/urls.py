@@ -7,4 +7,7 @@ urlpatterns = [
         path('plants/create/', create_plant, name='plant-create'),
         path('plants/<int:pk>/update/', PlantUpdateView.as_view(), name='plant-update'),
         path('plants/<int:pk>/delete/', PlantDeleteView.as_view(), name='plant-delete'),
+      
+
+        
 ]

@@ -1,0 +1,90 @@
+<!-- templates/demande_traitement/list.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des demandes de traitement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .btn {
+            padding: 6px 12px;
+            margin: 2px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        .btn-update {
+            background-color: #5ED8F2;
+            color: white;
+        }
+        .btn-delete {
+            background-color: #ff4c4c;
+            color: white;
+        }
+        .btn-update:hover {
+            background-color: #4ab2d1;
+        }
+        .btn-delete:hover {
+            background-color: #e03e3e;
+        }
+    </style>
+</head>
+<body>
+    <h2>Liste des demandes de traitement</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Plante</th>
+                <th>Description</th>
+                <th>Date de Demande</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for demande in demandes %}
+                <tr>
+                    <td>{{ demande.plant.name }}</td>
+                    <td>{{ demande.description }}</td>
+                    <td>{{ demande.date_demande|date:"d/m/Y H:i" }}</td>
+                    <td>{{ demande.get_status_display }}</td>
+                    <td>
+                        <a href="{% url 'demande_update' demande.id %}" class="btn btn-update">Modifier</a>
+                        <form action="{% url 'demande_delete' demande.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-delete">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">Aucune demande trouvée.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'demande_create' %}">Créer une nouvelle demande</a>
+</body>
+</html>
