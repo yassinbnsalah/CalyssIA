@@ -12,3 +12,6 @@ class PlantForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Course Description'}),
             'image': forms.FileInput(attrs={'class': 'form-control-file'}),
         }
+
+class ImageUploadForm(forms.Form):
+    image = forms.ImageField(label='Upload Image')
