@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'PlantApp',
     'Maladie',
-    'UserApp'
+    'UserApp',
+    'TraitementApp',
+    'PreventionApp'
 ]
 
 MIDDLEWARE = [

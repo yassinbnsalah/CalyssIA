@@ -23,6 +23,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('PlantApp.urls')), 
     path('', include('Maladie.urls')), 
+    path('', include('TraitementApp.urls')), 
+    path('', include('PreventionApp.urls')), 
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
