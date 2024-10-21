@@ -58,7 +58,19 @@
               </ul>
             </div>
           </li>
-
+          <li class="nav-item">
+            <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navMaladies" aria-expanded="true"
+              aria-controls="navMaladies">
+              <i class="nav-icon fe fe-book mr-2"></i>Maladies
+            </a>
+            <div id="navMaladies" class="collapse show" data-parent="#sideNavbar">
+              <ul class="nav flex-column">
+                <li class="nav-item">
+                  <a class="nav-link active" href="{% url 'maladie_list' %}">All Maladies</a>
+                </li>
+              </ul>
+            </div>
+          </li>
         </ul>
 
       </div>
