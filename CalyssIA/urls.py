@@ -25,6 +25,10 @@ urlpatterns = [
     path('', include('Maladie.urls')), 
     path('', include('TraitementApp.urls')), 
     path('', include('PreventionApp.urls')), 
+    path('', include('PlantApp.urls')),
+  # Route pour DemandeTraitement
+       path('demandes/', include('DemandeTraitement.urls')),  # URLs pour DemandeTraitement
+    
 
 ]
 if settings.DEBUG:

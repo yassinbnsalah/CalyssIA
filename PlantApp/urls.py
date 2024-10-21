@@ -9,4 +9,7 @@ urlpatterns = [
         path('plants/<int:pk>/update/', PlantUpdateView.as_view(), name='plant-update'),
         path('plants/<int:pk>/delete/', PlantDeleteView.as_view(), name='plant-delete'),
         path('plants/<int:pk>/predict/', predict, name='predict'),
+      
+
+        
 ]

@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'Maladie',
     'UserApp',
     'TraitementApp',
-    'PreventionApp'
+    'PreventionApp',
+    'DemandeTraitement'
 ]
 
 MIDDLEWARE = [
