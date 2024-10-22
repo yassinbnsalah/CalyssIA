@@ -207,6 +207,7 @@
                                   <th scope="col">Disease Detection</th>
                                   <th scope="col">confidence score</th>
                                   <th scope="col">date_detected</th>
+                                  <th scope="col">Notes</th>
                                </tr>
                             </thead>
                             <tbody>
@@ -214,8 +215,9 @@
                                <tr>
                                   <th scope="row">{{di.id}}</th>
                                   <td>{{di.detected_disease}}</td>
-                                  <td>{{di.confidence_score}}</td>
+                                  <td>{{di.confidence_score}}</td>  
                                   <td>{{di.date_detected}}</td>
+                                  <td><div class="alert alert-danger"> {{di.notes}}</div></td>
                                </tr>
                                {% endfor %}
                             </tbody>

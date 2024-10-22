@@ -51,6 +51,10 @@
                     
                     <p>{{ title|safe }}</p>
                     <p>{{ description }}</p>
+
+                    <div class="alert alert-danger">
+                      <strong>  Suggestions </strong>: {{prevent}}
+                    </div>
                 </div>
                 {% endif %}
             </div>

@@ -52,18 +52,20 @@ def predict(request, pk=None):
                     description = result_data.get('desc', 'Unknown')
                     prediction_score = result_data.get('pred' , 'unknown')
                     title = result_data.get('title', 'unknown')
-
+                    prevent = result_data.get('prevent' , 'unknown')
                     plant = Plant.objects.get(id = pk)
                     
                     ds = DiseaseDetection.objects.create(plant = plant , 
                                                         detected_disease=title , 
                                                         image = image,
+                                                   
                                                         confidence_score = prediction_score,
                                                         notes =description)
                     ds.save()
                     return render(request, 'predict.html', {'form': form,
                                                              'description': description,
                                                              'title' : title,
+                                                                  "prevent" : prevent ,
                                                              'result' : None,
                                                                'success': True})
                 else:
