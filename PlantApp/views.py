@@ -38,20 +38,34 @@ def predict(request, pk=None):
             image = form.cleaned_data['image']
             
             # Prepare the files to send in the request
-            files = {'file': image.file}
+            files = {'image': image.file}
 
             try:
                 # Send the image to the external API
-                response = requests.post('http://127.0.0.1:5001/predict', files=files)
+                response = requests.post('http://127.0.0.1:5000/submit',
+                                          files=files)
 
-                
+                result = None
                 if response.status_code == 200:
                     result_data = response.json() 
-                    result = result_data.get('resultat', 'Unknown')
-                    plant = Plant.objects.get(id = pk)
+                    print(result_data)
+                    description = result_data.get('desc', 'Unknown')
+                    prediction_score = result_data.get('pred' , 'unknown')
+                    title = result_data.get('title', 'unknown')
 
-                    ds = DiseaseDetection.objects.create(plant = plant , detected_disease=result , image = image,confidence_score = 20)
+                    plant = Plant.objects.get(id = pk)
+                    
+                    ds = DiseaseDetection.objects.create(plant = plant , 
+                                                        detected_disease=title , 
+                                                        image = image,
+                                                        confidence_score = prediction_score,
+                                                        notes =description)
                     ds.save()
+                    return render(request, 'predict.html', {'form': form,
+                                                             'description': description,
+                                                             'title' : title,
+                                                             'result' : None,
+                                                               'success': True})
                 else:
                     result = {"error": "Failed to predict. Status code: {}".format(response.status_code)}
 

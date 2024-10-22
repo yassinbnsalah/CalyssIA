@@ -18,7 +18,7 @@ class DiseaseDetection(models.Model):
     confidence_score = models.FloatField(null = True)
     image = models.ImageField(upload_to='detections/', blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
-
+    
     def __str__(self):
         return f'{self.detected_disease} on {self.plant.name}'
 

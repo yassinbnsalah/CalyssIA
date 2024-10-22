@@ -59,8 +59,6 @@ if (!$env:VIRTUAL_ENV_DISABLE_PROMPT) {
         ("(" + $env:VIRTUAL_ENV_PROMPT + ") " + $previous_prompt_value)
     }
 }
-<<<<<<< HEAD
-=======
 
 # Clear PYTHONHOME
 if (Test-Path -Path Env:PYTHONHOME) {
@@ -326,4 +324,3 @@ $Env:PATH = "$VenvExecDir$([System.IO.Path]::PathSeparator)$Env:PATH"
 # 91DxPlbbpCymSjO+3aMRAZyEXjmpHPbROZDSkqLXFf8OYcw4uUZLPLxjbmbZM1hH
 # dz3vPpscd6J1Tz93GwJu/8fZvMEYDjo=
 # SIG # End signature block
->>>>>>> 51ae64be13835f7c0a660223635e19e50d779922
