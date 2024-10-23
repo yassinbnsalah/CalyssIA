@@ -1,90 +1,184 @@
-<!-- templates/demande_traitement/list.html -->
 <!DOCTYPE html>
 <html lang="fr">
+{% load static %}
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/favicon/favicon.ico' %}">
+
+
+    <!-- Libs CSS -->
+    <link href="{% static 'assets/fonts/feather/feather.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/libs/dragula/dist/dragula.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/libs/@mdi/font/css/materialdesignicons.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/libs/prismjs/themes/prism.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/libs/dropzone/dist/dropzone.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/libs/magnific-popup/dist/magnific-popup.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/libs/bootstrap-select/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/libs/@yaireo/tagify/dist/tagify.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/libs/tiny-slider/dist/tiny-slider.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/libs/tippy.js/dist/tippy.css' %}" rel="stylesheet">
+
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/theme.min.css' %}">
+    
     <title>Liste des demandes de traitement</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f9f9f9;
-        }
-        h2 {
-            color: #333;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .btn {
-            padding: 6px 12px;
-            margin: 2px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            text-decoration: none;
-        }
-        .btn-update {
-            background-color: #5ED8F2;
-            color: white;
-        }
-        .btn-delete {
-            background-color: #ff4c4c;
-            color: white;
-        }
-        .btn-update:hover {
-            background-color: #4ab2d1;
-        }
-        .btn-delete:hover {
-            background-color: #e03e3e;
-        }
-    </style>
 </head>
+
 <body>
-    <h2>Liste des demandes de traitement</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Plante</th>
-                <th>Description</th>
-                <th>Date de Demande</th>
-                <th>Statut</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for demande in demandes %}
-                <tr>
-                    <td>{{ demande.plant.name }}</td>
-                    <td>{{ demande.description }}</td>
-                    <td>{{ demande.date_demande|date:"d/m/Y H:i" }}</td>
-                    <td>{{ demande.get_status_display }}</td>
-                    <td>
-                        <a href="{% url 'demande_update' demande.id %}" class="btn btn-update">Modifier</a>
-                        <form action="{% url 'demande_delete' demande.id %}" method="post" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-delete">Supprimer</button>
-                        </form>
-                    </td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="5">Aucune demande trouvée.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <a href="{% url 'demande_create' %}">Créer une nouvelle demande</a>
+    <div id="db-wrapper">
+        <nav class="navbar-vertical navbar">
+            <div class="nav-scroller">
+              <!-- Brand logo -->
+              <a class="navbar-brand" href="{% url 'home' %}"><img
+                src="{% static 'assets/images/brand/logo/logo-inverse.svg' %}" alt="" /></a>
+              <ul class="navbar-nav flex-column" id="sideNavbar">
+                <li class="nav-item">
+                  <a class="nav-link" href="admin-dashboard.html">
+                    <i class="nav-icon fe fe-home mr-2"></i>Dashboard
+                  </a>
+                </li> 
+                <!-- Nav item -->
+                <li class="nav-item">
+                  <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navCourses" aria-expanded="true"
+                    aria-controls="navCourses">
+                    <i class="nav-icon fe fe-book mr-2"></i>Plants
+                  </a>
+                  <div id="navCourses" class="collapse show" data-parent="#sideNavbar">
+                    <ul class="nav flex-column">
+                      <li class="nav-item">
+                        <a class="nav-link active" href="/plants/">All Plants
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navMaladies" aria-expanded="true"
+                    aria-controls="navMaladies">
+                    <i class="nav-icon fe fe-book mr-2"></i>Maladies
+                  </a>
+                  <div id="navMaladies" class="collapse show" data-parent="#sideNavbar">
+                    <ul class="nav flex-column">
+                      <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'maladie_list' %}">All Maladies</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navDemandes" aria-expanded="true"
+                      aria-controls="navDemandes">
+                      <i class="nav-icon fe fe-book mr-2"></i>Demandes de traitement
+                    </a>
+                    <div id="navDemandes" class="collapse show" data-parent="#sideNavbar">
+                      <ul class="nav flex-column">
+                        <li class="nav-item">
+                          <a class="nav-link active" href="{% url 'demande_list' %}">All Demandes</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navTraitements" aria-expanded="true"
+                      aria-controls="navTraitements">
+                      <i class="nav-icon fe fe-book mr-2"></i>Traitements
+                    </a>
+                    <div id="navTraitements" class="collapse show" data-parent="#sideNavbar">
+                      <ul class="nav flex-column">
+                        <li class="nav-item">
+                          <a class="nav-link active" href="{% url 'treatment_list' %}">All Traitements</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navPreventions" aria-expanded="true"
+                      aria-controls="navPreventions">
+                      <i class="nav-icon fe fe-book mr-2"></i>Preventions
+                    </a>
+                    <div id="navPreventions" class="collapse show" data-parent="#sideNavbar">
+                      <ul class="nav flex-column">
+                        <li class="nav-item">
+                          <a class="nav-link active" href="{% url 'prevention_list' %}">All Preventions</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+              </ul>
+      
+            </div>
+          </nav>
+
+        <div id="page-content">
+            <div class="header">
+                <nav class="navbar-default navbar navbar-expand-lg">
+                    <a id="nav-toggle" href="#!"><i class="fe fe-menu"></i></a>
+                </nav>
+            </div>
+            <div class="container-fluid p-4">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="border-bottom pb-4 mb-4 d-lg-flex align-items-center justify-content-between">
+                            <h1 class="mb-1 h2 font-weight-bold">Liste des demandes de traitement</h1>
+                            <div>
+                                <a href="{% url 'demande_create' %}" class="btn btn-primary">Créer une nouvelle demande</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="card rounded-lg">
+                            <div class="table-responsive border-0 overflow-y-hidden">
+                                <table class="table mb-0 text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="border-0 text-uppercase">Plante</th>
+                                            <th scope="col" class="border-0 text-uppercase">Description</th>
+                                            <th scope="col" class="border-0 text-uppercase">Date de Demande</th>
+                                            <th scope="col" class="border-0 text-uppercase">Statut</th>
+                                            <th scope="col" class="border-0 text-uppercase">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for demande in demandes %}
+                                        <tr>
+                                            <td>{{ demande.plant.name }}</td>
+                                            <td>{{ demande.description }}</td>
+                                            <td>{{ demande.date_demande|date:"d/m/Y H:i" }}</td>
+                                            <td>{{ demande.get_status_display }}</td>
+                                            <td>
+                                                <a href="{% url 'demande_update' demande.id %}" class="btn btn-outline-info btn-sm">Modifier</a>
+                                                <form action="{% url 'demande_delete' demande.id %}" method="post" style="display:inline;">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan="5">Aucune demande trouvée.</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Ajoutez d'autres scripts si nécessaire -->
 </body>
+
 </html>

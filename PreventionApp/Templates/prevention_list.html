@@ -4,7 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'assets/libs/bootstrap/dist/css/bootstrap.min.css' %}">
+
+
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/favicon/favicon.ico' %}">
+
+
+    <!-- Libs CSS -->
+    <link href="{% static 'assets/fonts/feather/feather.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/libs/dragula/dist/dragula.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/libs/@mdi/font/css/materialdesignicons.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/libs/prismjs/themes/prism.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/libs/dropzone/dist/dropzone.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/libs/magnific-popup/dist/magnific-popup.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/libs/bootstrap-select/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/libs/@yaireo/tagify/dist/tagify.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/libs/tiny-slider/dist/tiny-slider.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/libs/tippy.js/dist/tippy.css' %}" rel="stylesheet">
+
+
+    <!-- Theme CSS -->
     <link rel="stylesheet" href="{% static 'assets/css/theme.min.css' %}">
     <title>Prevention List</title>
 </head>
@@ -13,16 +32,86 @@
         <!-- Sidebar -->
         <nav class="navbar-vertical navbar">
             <div class="nav-scroller">
-                <a class="navbar-brand" href="../index.html">
-                    <img src="../assets/images/brand/logo/logo-inverse.svg" alt="" />
-                </a>
-                <ul class="navbar-nav flex-column" id="sideNavbar">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/preventions/">All Preventions</a>
-                    </li>
-                </ul>
+              <!-- Brand logo -->
+              <a class="navbar-brand" href="{% url 'home' %}"><img
+                src="{% static 'assets/images/brand/logo/logo-inverse.svg' %}" alt="" /></a>
+              <ul class="navbar-nav flex-column" id="sideNavbar">
+                <li class="nav-item">
+                  <a class="nav-link" href="admin-dashboard.html">
+                    <i class="nav-icon fe fe-home mr-2"></i>Dashboard
+                  </a>
+                </li> 
+                <!-- Nav item -->
+                <li class="nav-item">
+                  <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navCourses" aria-expanded="true"
+                    aria-controls="navCourses">
+                    <i class="nav-icon fe fe-book mr-2"></i>Plants
+                  </a>
+                  <div id="navCourses" class="collapse show" data-parent="#sideNavbar">
+                    <ul class="nav flex-column">
+                      <li class="nav-item">
+                        <a class="nav-link active" href="/plants/">All Plants
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navMaladies" aria-expanded="true"
+                    aria-controls="navMaladies">
+                    <i class="nav-icon fe fe-book mr-2"></i>Maladies
+                  </a>
+                  <div id="navMaladies" class="collapse show" data-parent="#sideNavbar">
+                    <ul class="nav flex-column">
+                      <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'maladie_list' %}">All Maladies</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navDemandes" aria-expanded="true"
+                    aria-controls="navDemandes">
+                    <i class="nav-icon fe fe-book mr-2"></i>Demandes de traitement
+                  </a>
+                  <div id="navDemandes" class="collapse show" data-parent="#sideNavbar">
+                    <ul class="nav flex-column">
+                      <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'demande_list' %}">All Demandes</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navTraitements" aria-expanded="true"
+                      aria-controls="navTraitements">
+                      <i class="nav-icon fe fe-book mr-2"></i>Traitements
+                    </a>
+                    <div id="navTraitements" class="collapse show" data-parent="#sideNavbar">
+                      <ul class="nav flex-column">
+                        <li class="nav-item">
+                          <a class="nav-link active" href="{% url 'treatment_list' %}">All Traitements</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navPreventions" aria-expanded="true"
+                      aria-controls="navPreventions">
+                      <i class="nav-icon fe fe-book mr-2"></i>Preventions
+                    </a>
+                    <div id="navPreventions" class="collapse show" data-parent="#sideNavbar">
+                      <ul class="nav flex-column">
+                        <li class="nav-item">
+                          <a class="nav-link active" href="{% url 'prevention_list' %}">All Preventions</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+              </ul>
+      
             </div>
-        </nav>
+          </nav>
 
         <!-- Page Content -->
         <div id="page-content">
