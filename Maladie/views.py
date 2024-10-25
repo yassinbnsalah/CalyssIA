@@ -4,6 +4,35 @@ from .models import Maladie
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import MaladieForm
+# views.py
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+import os
+import google.generativeai as genai
+import json
+
+# Set up the Google API key
+GOOGLE_API = os.getenv('GOOGLE_API_KEY')
+genai.configure(api_key=GOOGLE_API)
+
+def ai_generate_description(title):
+    model = genai.GenerativeModel('gemini-1.5-flash')
+    prompt = f"generate a detailed description in 4 lines for: {title}"
+    response = model.generate_content(prompt)
+    
+    # Assuming response has a 'content' attribute that holds the generated text
+    return response.get('content', '')
+
+@csrf_exempt
+def generate_description(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        title = data.get('title', '')
+        description = ai_generate_description(title)
+        return JsonResponse({'description': description})
+    
+    return JsonResponse({'error': 'Invalid Request'}, status=400)
+
 
 def home(request):
     return render(request, 'home.html')
@@ -13,6 +42,9 @@ def maladie_list(request):
     maladies = Maladie.objects.all()  
     return render(request, 'maladie_list.html', {'maladies': maladies})
 
+def maladie_list_farmer(request):
+    maladies = Maladie.objects.all()  
+    return render(request, 'maladie_list_farmer.html', {'maladies': maladies})
 
 def create_maladie(request):
     if request.method == 'POST':
