@@ -1,13 +1,13 @@
 # DemandeTraitement/models.py
 from django.db import models
 from django.utils import timezone
-from PlantApp.models import Plant
+from PlantApp.models import DiseaseDetection, Plant
 from UserApp.models import RUser
 
 
 
 class DemandeTraitement(models.Model):
-    plant = models.ForeignKey(Plant, on_delete=models.CASCADE, related_name='demandes')
+    Disease  = models.ForeignKey(DiseaseDetection, on_delete=models.CASCADE, related_name='demandes' , null = True)
     from_farmer = models.ForeignKey(RUser, on_delete=models.CASCADE, related_name='sent_demandes' , null=True)
     to_doc = models.ForeignKey(RUser, on_delete=models.CASCADE, related_name='received_demandes' , null=True)
     description = models.TextField()
@@ -23,7 +23,7 @@ class DemandeTraitement(models.Model):
     )
 
     def __str__(self):
-        return f"Demande de traitement pour {self.plant.name} - Status: {self.get_status_display()}"
+        return f"Demande de traitement pour {self.Disease.plant.name} - Status: {self.get_status_display()}"
 class RendezVous(models.Model):
     demande = models.ForeignKey(DemandeTraitement, on_delete=models.CASCADE, related_name='rendez_vous')
     date = models.DateTimeField()

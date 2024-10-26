@@ -15,20 +15,17 @@ import json
 GOOGLE_API = os.getenv('GOOGLE_API_KEY')
 genai.configure(api_key=GOOGLE_API)
 
-def ai_generate_description(title):
+def ai_generate_description(nom):
     model = genai.GenerativeModel('gemini-1.5-flash')
-    prompt = f"generate a detailed description in 4 lines for: {title}"
+    prompt = f"generate a detailed description in 4 lines for: {nom}"
     response = model.generate_content(prompt)
-    
-    # Assuming response has a 'content' attribute that holds the generated text
-    return response.get('content', '')
-
+    return response.text
 @csrf_exempt
 def generate_description(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        title = data.get('title', '')
-        description = ai_generate_description(title)
+        nom = data.get('nom', '')
+        description = ai_generate_description(nom)
         return JsonResponse({'description': description})
     
     return JsonResponse({'error': 'Invalid Request'}, status=400)
@@ -73,7 +70,7 @@ class MaladieCreateView(CreateView):
         form.instance.owner = self.request.user  
         return super().form_valid(form)
 
-
+ 
 class MaladieUpdateView(UpdateView):
     model = Maladie
     fields = ['nom', 'description', 'image', 'causes', 'symptomes']

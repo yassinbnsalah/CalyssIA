@@ -3,10 +3,28 @@ from django.views.generic import ListView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
+
+from PlantApp.models import DiseaseDetection
 from .models import DemandeTraitement, RendezVous
 from .forms import DemandeTraitementForm, RendezVousForm
 
 from django.urls import reverse_lazy
+
+
+
+def createDemande(request, pk):
+    disease = get_object_or_404(DiseaseDetection, id=pk)
+    if request.method == 'POST':
+        form = DemandeTraitementForm(request.POST)
+        if form.is_valid():
+            demande = form.save(commit=False)
+            demande.disease = disease
+            demande.save()
+            return redirect('PlantApp:details_plant', pk=disease.plant.id)
+    else:
+        form = DemandeTraitementForm()
+    return render(request, 'demande_traitement/create.html', {'form': form, 'disease': disease})
+
 class DemandeTraitementCreateView(CreateView):
     model = DemandeTraitement
     form_class = DemandeTraitementForm
@@ -15,8 +33,8 @@ class DemandeTraitementCreateView(CreateView):
 
 class DemandeTraitementListView(ListView):
     model = DemandeTraitement
-    template_name = 'demande_traitement/list.html'  # Modifie en fonction de ton template
-    context_object_name = 'demandes'  # Le nom de la variable de contexte pour la template
+    template_name = 'demande_traitement/list.html' 
+    context_object_name = 'demandes' 
 def DemandeTraitementUpdateView(request, pk):
     demande = get_object_or_404(DemandeTraitement, pk=pk)
     if request.method == 'POST':

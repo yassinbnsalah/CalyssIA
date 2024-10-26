@@ -38,35 +38,41 @@
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-
-                    <!-- Nom de la maladie -->
-                    <div class="form-group mb-3">
-                        <label for="id_nom" class="form-label">Nom de la maladie</label>
-                        {{ form.nom }}  <!-- Utilisation du champ nom du formulaire -->
-                    </div>
-
-                    <!-- Description -->
-                    <div class="form-group mb-3">
-                        <label for="id_description" class="form-label">Description de la maladie</label>
-                        {{ form.description }}  <!-- Utilisation du champ description du formulaire -->
-                    </div>
-
                     <!-- Image -->
                     <div class="form-group mb-3">
                         <label for="id_image" class="form-label">Image de la maladie</label>
-                        {{ form.image }}  <!-- Utilisation du champ image du formulaire -->
+                        {{ form.image }} <!-- Utilisation du champ image du formulaire -->
                     </div>
+                    <!-- Nom de la maladie -->
+                    <div class="form-group mb-3">
+                        <label for="id_nom" class="form-label">Nom de la maladie</label>
+                        {{ form.nom }} <!-- Utilisation du champ nom du formulaire -->
+                    </div>
+<!-- Maladie Type -->
+<div class="form-group mb-3">
+    <label for="id_nom" class="form-label">type de la maladie</label>
+    {{ form.types }}
+    <small class="form-text text-muted">Enter the type of the disease.</small>
+</div>
+                    <!-- Description -->
+                    <div class="form-group mb-3">
+                        <label for="id_description" class="form-label">Description de la maladie</label>
+                        {{ form.description }} <!-- Utilisation du champ description du formulaire -->
+                    </div>
+
+
+                    
 
                     <!-- Causes -->
                     <div class="form-group mb-3">
                         <label for="id_causes" class="form-label">Causes de la maladie</label>
-                        {{ form.causes }}  <!-- Utilisation du champ causes du formulaire -->
+                        {{ form.causes }} <!-- Utilisation du champ causes du formulaire -->
                     </div>
 
                     <!-- Symptômes -->
                     <div class="form-group mb-3">
                         <label for="id_symptomes" class="form-label">Symptômes observables</label>
-                        {{ form.symptomes }}  <!-- Utilisation du champ symptomes du formulaire -->
+                        {{ form.symptomes }} <!-- Utilisation du champ symptomes du formulaire -->
                     </div>
 
                     <!-- Submit Button -->

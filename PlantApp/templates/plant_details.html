@@ -220,6 +220,7 @@
                                   <th scope="col">confidence score</th>
                                   <th scope="col">date_detected</th>
                                   <th scope="col">Notes</th>
+                                  <th></th>
                                </tr>
                             </thead>
                             <tbody>
@@ -230,6 +231,7 @@
                                   <td>{{di.confidence_score}}</td>  
                                   <td>{{di.date_detected}}</td>
                                   <td><div class="alert alert-danger"> {{di.notes}}</div></td>
+                                  <td> <a href="{% url 'demande_create'  di.id%}" class="btn btn-danger">Demande Treatement</a></td>
                                </tr>
                                {% endfor %}
                             </tbody>

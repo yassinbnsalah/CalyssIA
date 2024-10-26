@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+ 
 
     <!-- Favicon icon-->
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/favicon/favicon.ico' %}">
@@ -157,6 +157,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" class="border-0 text-uppercase">Maladie</th>
+                                                        <th scope="col" class="border-0 text-uppercase">Type</th>
                                                         <th scope="col" class="border-0 text-uppercase">Description</th>
                                                         <th scope="col" class="border-0 text-uppercase">Causes</th>
                                                         <th scope="col" class="border-0 text-uppercase">Symptômes</th>
@@ -179,6 +180,15 @@
                                                                     <span class="text-inherit">Published on {{ maladie.date_publication|date:"d F, Y" }}</span>
                                                                 </div>
                                                             </div>
+                                                        </td>
+                                                        <td class="align-middle border-top-0">
+                                                            {% if maladie.types.all %}
+                                                                {% for type in maladie.types.all %}
+                                                                    {{ type.nom }}{% if not forloop.last %}, {% endif %}
+                                                                {% endfor %}
+                                                            {% else %}
+                                                                No types available
+                                                            {% endif %}
                                                         </td>
                                                         <td class="align-middle border-top-0">{{ maladie.description }}
                                                         </td>
