@@ -56,6 +56,11 @@
                         <small class="form-text text-muted">A brief summary of the disease.</small>
                     </div>
 
+                    <!-- Generate Description Button -->
+                    <button type="button" class="btn btn-secondary" id="generate-description-btn">
+                        Generate Description
+                    </button>
+
                     <!-- Image Upload -->
                     <div class="form-group mb-3">
                         <label for="id_image" class="form-label">Upload Image</label>
@@ -81,7 +86,42 @@
         </div>
     </div>
 
+    <!-- JavaScript to handle AJAX call for generating description -->
+    <script>
+        document.getElementById('generate-description-btn').addEventListener('click', function() {
+            // Get the value of the "Nom de la maladie" field
+            const nom = document.getElementById('id_nom').value;
+
+            // Check if "Nom" field is not empty
+            if (nom.trim() === '') {
+                alert('Please enter the name of the disease (Nom de la maladie)');
+                return;
+            }
+
+            // Send a POST request to the server to generate the description
+            fetch("{% url 'generate_description' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: JSON.stringify({ nom: nom })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.description) {
+                    // Update the "Description de la maladie" field with the generated description
+                    document.getElementById('id_description').value = data.description;
+                } else {
+                    alert('Error: Unable to generate description');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+
 </body>
+
 <!-- Script -->
 <!-- Libs JS -->
 <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
