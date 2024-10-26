@@ -16,3 +16,11 @@ class DemandeTraitement(models.Model):
 
     def __str__(self):
         return f"Demande de traitement pour {self.plant.name} - {self.status}"
+
+class RendezVous(models.Model):
+    demande = models.ForeignKey(DemandeTraitement, on_delete=models.CASCADE, related_name='rendez_vous')
+    date = models.DateTimeField()
+    commentaire = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"Rendez-vous pour {self.demande.plant.name} le {self.date}"

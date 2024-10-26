@@ -155,6 +155,7 @@
                                             <td>{{ demande.get_status_display }}</td>
                                             <td>
                                                 <a href="{% url 'demande_update' demande.id %}" class="btn btn-outline-info btn-sm">Modifier</a>
+                                                
                                                 <form action="{% url 'demande_delete' demande.id %}" method="post" style="display:inline;">
                                                     {% csrf_token %}
                                                     <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
