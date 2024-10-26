@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 
-class Maladie(models.Model):
+class TypeMaladie(models.Model):
     nom = models.CharField(max_length=200, unique=True, verbose_name="Nom de la type de maladie")
     description = models.TextField(verbose_name="Description de la type de maladie")
     image = models.ImageField(upload_to='typemaladies/', verbose_name="Image de la type de maladie", null=True, blank=True)

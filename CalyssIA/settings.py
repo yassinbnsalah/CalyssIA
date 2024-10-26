@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'PlantApp',
     'Maladie',
+    'TypeMaladie',
     'UserApp',
     'TraitementApp',
     'PreventionApp',

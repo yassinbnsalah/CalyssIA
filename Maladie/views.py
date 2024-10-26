@@ -70,7 +70,7 @@ class MaladieCreateView(CreateView):
         form.instance.owner = self.request.user  
         return super().form_valid(form)
 
-
+ 
 class MaladieUpdateView(UpdateView):
     model = Maladie
     fields = ['nom', 'description', 'image', 'causes', 'symptomes']

@@ -8,7 +8,7 @@
 
 
     <!-- Favicon icon-->
-    <link rel="shortcut icon" type="image/x-icon" href={% static 'assets/images/favicon/favicon.ico' %}>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/favicon/favicon.ico' %}">
 
 
     <!-- Libs CSS -->
@@ -26,7 +26,7 @@
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="{% static 'assets/css/theme.min.css' %}">
-    <title>Maladie Form</title>
+    <title>Type Maladie Form</title>
 </head>
 
 <body>
@@ -34,7 +34,7 @@
         <!-- Card -->
         <div class="card mb-3">
             <div class="card-header border-bottom px-4 py-3">
-                <h4 class="mb-0">Create New Maladie</h4>
+                <h4 class="mb-0">Create New Type Maladie</h4>
             </div>
 
             <!-- Card body -->
@@ -48,83 +48,30 @@
                     </div>
                     <!-- Maladie Name -->
                     <div class="form-group mb-3">
-                        <label for="id_nom" class="form-label">Nom de la maladie</label>
+                        <label for="id_nom" class="form-label">Nom de la Type maladie</label>
                         {{ form.nom }}
                         <small class="form-text text-muted">Enter the name of the disease.</small>
-                    </div>
-                     <!-- Maladie Type -->
-                     <div class="form-group mb-3">
-                        <label for="id_nom" class="form-label">type de la maladie</label>
-                        {{ form.types }}
-                        <small class="form-text text-muted">Enter the type of the disease.</small>
                     </div>
 
                     <!-- Maladie Description -->
                     <div class="form-group mb-3">
-                        <label for="id_description" class="form-label">Description de la maladie</label>
+                        <label for="id_description" class="form-label">Description de la Type maladie</label>
                         {{ form.description }}
                         <small class="form-text text-muted">A brief summary of the disease.</small>
                     </div>
 
-                    <!-- Generate Description Button -->
-                    <button type="button" class="btn btn-secondary" id="generate-description-btn">
-                        Generate Description
-                    </button>
-
-
-
                     <!-- Causes -->
                     <div class="form-group mb-3">
-                        <label for="id_causes" class="form-label">Causes de la maladie</label>
-                        {{ form.causes }}
+                        <label for="id_causes" class="form-label">is contagious </label>
+                        {{ form.is_contagious }}
                     </div>
-
-                    <!-- Symptoms -->
-                    <div class="form-group mb-3">
-                        <label for="id_symptomes" class="form-label">Symptomes observables</label>
-                        {{ form.symptomes }}
-                    </div>
-
                     <!-- Submit Button -->
-                    <button type="submit" class="btn btn-primary">Create Maladie</button>
+                    <button type="submit" class="btn btn-primary">Create Type Maladie</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript to handle AJAX call for generating description -->
-    <script>
-        document.getElementById('generate-description-btn').addEventListener('click', function () {
-            // Get the value of the "Nom de la maladie" field
-            const nom = document.getElementById('id_nom').value;
-
-            // Check if "Nom" field is not empty
-            if (nom.trim() === '') {
-                alert('Please enter the name of the disease (Nom de la maladie)');
-                return;
-            }
-
-            // Send a POST request to the server to generate the description
-            fetch("{% url 'generate_description' %}", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}',
-                },
-                body: JSON.stringify({ nom: nom })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.description) {
-                        // Update the "Description de la maladie" field with the generated description
-                        document.getElementById('id_description').value = data.description;
-                    } else {
-                        alert('Error: Unable to generate description');
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        });
-    </script>
 
 </body>
 
