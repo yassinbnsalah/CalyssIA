@@ -1,14 +1,17 @@
-# forms.py
 from django import forms
 from .models import RUser
 
 class CustomUserRegistrationForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
-    confirm_password = forms.CharField(widget=forms.PasswordInput)
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your Password'}))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm your Password'}))
 
     class Meta:
         model = RUser
         fields = ["email", "name", "password"]
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your Name'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter your Email'}),
+        }
 
     def clean(self):
         cleaned_data = super().clean()
