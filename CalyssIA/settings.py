@@ -73,6 +73,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'CalyssIA.wsgi.application'
+# settings.py
+AUTH_USER_MODEL = "UserApp.RUser"
 
 
 # Database

@@ -26,8 +26,8 @@ urlpatterns = [
     path('', include('TraitementApp.urls')), 
     path('', include('PreventionApp.urls')), 
     path('', include('PlantApp.urls')),
-  # Route pour DemandeTraitement
-       path('demandes/', include('DemandeTraitement.urls')),  # URLs pour DemandeTraitement
+    path('', include('UserApp.urls')) ,
+       path('demandes/', include('DemandeTraitement.urls')), 
     
 
 ]
