@@ -29,6 +29,7 @@ urlpatterns = [
     path('', include('UserApp.urls')) ,
     path('', include('DemandeTraitement.urls')),
  
+ 
     
 
 ]

@@ -23,4 +23,4 @@ class RendezVousForm(forms.ModelForm):
 
     class Meta:
         model = RendezVous
-        fields = ['demande', 'date', 'commentaire']
+        fields = ['date', 'commentaire']

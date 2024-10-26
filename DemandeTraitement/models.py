@@ -25,9 +25,9 @@ class DemandeTraitement(models.Model):
     def __str__(self):
         return f"Demande de traitement pour {self.plant.name} - Status: {self.get_status_display()}"
 class RendezVous(models.Model):
-    demande = models.ForeignKey(DemandeTraitement, on_delete=models.CASCADE, related_name='rendez_vous')
-    date = models.DateTimeField()
-    commentaire = models.TextField(blank=True)
+    demande = models.ForeignKey(DemandeTraitement, on_delete=models.CASCADE)  # Lien vers la demande
+    date = models.DateTimeField()  # Date et heure du rendez-vous
+    commentaire = models.TextField(blank=True, null=True)  # Commentaire facultatif
 
     def __str__(self):
-        return f"Rendez-vous pour {self.demande.plant.name} le {self.date}"
+        return f'Rendez-vous pour {self.demande} le {self.date}'
