@@ -8,5 +8,6 @@ urlpatterns = [
     path('update/<int:pk>/', DemandeTraitementUpdateView, name='demande_update'),  # Route pour la mise à jour
     path('delete/<int:pk>/', DemandeTraitementDeleteView, name='demande_delete'),
     path('rendezvous/create/', RendezVousCreateView.as_view(), name='rendezvous_create'),
+    path('rendezvous/create/<int:demande_id>/', RendezVousCreateView.as_view(), name='rendezvous_create'),
   
 ]

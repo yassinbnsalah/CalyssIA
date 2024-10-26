@@ -59,9 +59,27 @@ class RendezVousCreateView(CreateView):
     model = RendezVous
     form_class = RendezVousForm
     template_name = 'demande_traitement/create_rendezvous.html'
-    success_url = reverse_lazy('demande_list')
+    success_url = reverse_lazy('demande_list')  # Redirige après succès
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Récupérer l'ID de la demande à partir de l'URL
+        demande_id = self.kwargs.get('demande_id')
+        # Simuler des détails de la demande sans utiliser un modèle
+        context['demande'] = {
+            'id': demande_id,
+            'objet': "Objet fictif de la demande"  # Remplacez par les détails réels si disponibles
+        }
+        return context
 
+    def form_valid(self, form):
+        demande_id = self.kwargs.get('demande_id')
+        if demande_id:
+            form.instance.demande_id = demande_id  # Associer l'ID à votre instance de rendez-vous
+            return super().form_valid(form)
+        else:
+            return redirect(self.success_url)
+            
 class DemandeTraitementDetailView(DetailView):
     model = DemandeTraitement
     template_name = 'demande_detail.html'  # Remplacez par votre modèle de template
