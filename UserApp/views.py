@@ -34,7 +34,7 @@ def login(request):
         user = authenticate(request, username=email, password=password)
         if user is not None:
             auth_login(request, user)
-            if user.role == "ADMIN":
+            if user.role == "DOCTOR":
                 return redirect("dashboard_admin")
             else:
                 return redirect("dashboard_farmer")
@@ -48,7 +48,7 @@ def logout_view(request):
     messages.success(request, "You have been logged out.")
     return redirect("login")
 @login_required  
-@role_required("ADMIN") 
+@role_required("DOCTOR") 
 def dashboard_admin(request):
     
     return render(request, "dashboard_admin.html")

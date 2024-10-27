@@ -13,12 +13,12 @@ def type_maladie_list_farmer(request):
     typemaladies = TypeMaladie.objects.all()  
     return render(request, 'type_maladie_list_farmer.html', {'typemaladies': typemaladies})
 @login_required 
-@role_required("ADMIN")
+@role_required("DOCTOR")
 def type_maladie_list(request):
     typemaladies = TypeMaladie.objects.all()  
     return render(request, 'type_maladie_list.html', {'typemaladies': typemaladies})
 @login_required 
-@role_required("ADMIN")
+@role_required("DOCTOR")
 def create_type_maladie(request):
     if request.method == 'POST':
         form = TypeMaladieForm(request.POST, request.FILES)
@@ -30,7 +30,7 @@ def create_type_maladie(request):
     
     return render(request, 'create_type_maladie.html', {'form': form})
 @login_required 
-@role_required("ADMIN")
+@role_required("DOCTOR")
 def delete_type_maladie(request, pk):
     typemaladie = get_object_or_404(TypeMaladie, id=pk)
     typemaladie.delete()

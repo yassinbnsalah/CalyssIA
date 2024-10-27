@@ -6,12 +6,12 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
 from UserApp.decorators import role_required
 @login_required 
-@role_required("ADMIN")
+@role_required("DOCTOR")
 def treatment_list(request):
     treatments = Treatment.objects.all()  
     return render(request, 'treatment_list.html', {'treatments': treatments})
 @login_required 
-@role_required("ADMIN")
+@role_required("DOCTOR")
 def create_treatment(request):
     if request.method == 'POST':
         form = TreatmentForm(request.POST)
@@ -40,7 +40,7 @@ class TreatmentDeleteView(DeleteView):
     template_name = 'treatment_confirm_delete.html'
     success_url = reverse_lazy('treatment_list')
 @login_required 
-@role_required("ADMIN")
+@role_required("DOCTOR")
 def treatment_detail(request, pk):
     treatment = get_object_or_404(Treatment, pk=pk)
     return render(request, 'treatment_detail.html', {'treatment': treatment})

@@ -9,12 +9,12 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
 from UserApp.decorators import role_required
 @login_required 
-@role_required("ADMIN")
+@role_required("DOCTOR")
 def prevention_list(request):
     preventions = Prevention.objects.all()  
     return render(request, 'prevention_list.html', {'preventions': preventions})
 @login_required 
-@role_required("ADMIN")
+@role_required("DOCTOR")
 def create_prevention(request):
     if request.method == 'POST':
         form = PreventionForm(request.POST)
@@ -48,7 +48,7 @@ class PreventionDeleteView(DeleteView):
 
 # Function-based view for showing the details of a Prevention record
 @login_required 
-@role_required("ADMIN")
+@role_required("DOCTOR")
 def prevention_detail(request, pk):
     prevention = get_object_or_404(Prevention, pk=pk)
     feedbacks = Feedback.objects.filter(prevention=prevention)  
