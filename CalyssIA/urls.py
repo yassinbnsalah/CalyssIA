@@ -25,7 +25,6 @@ urlpatterns = [
     path('', include('Maladie.urls')), 
     path('', include('TraitementApp.urls')), 
     path('', include('PreventionApp.urls')), 
-    path('', include('PlantApp.urls')),
     path('', include('UserApp.urls')) ,
     path('', include('TypeMaladie.urls')),
     path('', include('DemandeTraitement.urls')), 

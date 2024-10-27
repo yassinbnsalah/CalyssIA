@@ -14,7 +14,8 @@ def plant_list(request):
 
 def plant_details(request, pk = None):
     plant = Plant.objects.get(id = pk)  
-    dis = DiseaseDetection.objects.filter(plant = plant).order_by('-date_detected')
+    dis = DiseaseDetection.objects.filter(demande_traitement__isnull=True).order_by('-date_detected')
+    # dis = DiseaseDetection.objects.filter(plant = plant).order_by('-date_detected')
     return render(request, 'plant_details.html', {'plant': plant ,'dis' : dis})
 
 

@@ -165,7 +165,7 @@
                                         <div class="col-md-6">
                                             <div class="d-grid">
                                                 <!-- btn -->
-                                                <a href="{% url 'predict' plant.id %}" class="btn btn-danger">
+                                                <a href="{% url 'PlantApp:predict' plant.id %}" class="btn btn-danger">
                                                     <i class="fe fe-shopping-cart me-2"></i>
                                                     Disease Detection
                                                 </a>
@@ -217,25 +217,34 @@
                                <tr>
                                   <th scope="col">#</th>
                                   <th scope="col">Disease Detection</th>
-                                  <th scope="col">confidence score</th>
-                                  <th scope="col">date_detected</th>
+                                  <th scope="col">Confidence Score</th>
+                                  <th scope="col">Date Detected</th>
                                   <th scope="col">Notes</th>
                                   <th></th>
                                </tr>
                             </thead>
                             <tbody>
                                 {% for di in dis %}
-                               <tr>
-                                  <th scope="row">{{di.id}}</th>
-                                  <td>{{di.detected_disease}}</td>
-                                  <td>{{di.confidence_score}}</td>  
-                                  <td>{{di.date_detected}}</td>
-                                  <td><div class="alert alert-danger"> {{di.notes}}</div></td>
-                                  <td> <a href="{% url 'demande_create'  di.id%}" class="btn btn-danger">Demande Treatement</a></td>
-                               </tr>
-                               {% endfor %}
+                                <tr>
+                                    <th scope="row">{{ di.id }}</th>
+                                    <td>{{ di.detected_disease }}</td>
+                                    <td>{{ di.confidence_score }}</td>
+                                    <td>{{ di.date_detected }}</td>
+                                    <td>
+                                        <div class="alert alert-danger">{{ di.notes }}</div>
+                                    </td>
+                                    <td>
+                                        {% if di.demande_traitement.exists %}
+                                            <span class="text-success">Treatment Requested</span>
+                                        {% else %}
+                                            <a href="{% url 'demande_create' di.id %}" class="btn btn-danger">Request Treatment</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
                             </tbody>
-                         </table>
+                        </table>
+                        
                     </div>
                 </div>
         </div>
