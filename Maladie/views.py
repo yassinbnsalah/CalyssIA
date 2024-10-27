@@ -10,7 +10,9 @@ from django.http import JsonResponse
 import os
 import google.generativeai as genai
 import json
-
+from django.contrib.auth.decorators import login_required
+from UserApp.decorators import role_required
+from TypeMaladie.models import TypeMaladie
 # Set up the Google API key
 GOOGLE_API = os.getenv('GOOGLE_API_KEY')
 genai.configure(api_key=GOOGLE_API)
@@ -34,15 +36,19 @@ def generate_description(request):
 def home(request):
     return render(request, 'home.html')
 
- 
+@login_required 
+@role_required("ADMIN")
 def maladie_list(request):
     maladies = Maladie.objects.all()  
     return render(request, 'maladie_list.html', {'maladies': maladies})
-
-def maladie_list_farmer(request):
-    maladies = Maladie.objects.all()  
-    return render(request, 'maladie_list_farmer.html', {'maladies': maladies})
-
+@login_required
+@role_required("FARMER")
+def maladie_list_farmer(request, type_id):
+    type_maladie = get_object_or_404(TypeMaladie, id=type_id)
+    maladies = Maladie.objects.filter(types=type_maladie)
+    return render(request, 'maladie_list_farmer.html', {'maladies': maladies, 'type_maladie': type_maladie})
+@login_required 
+@role_required("ADMIN")
 def create_maladie(request):
     if request.method == 'POST':
         form = MaladieForm(request.POST, request.FILES)
@@ -54,7 +60,8 @@ def create_maladie(request):
     
     return render(request, 'create_maladie.html', {'form': form})
 
-
+@login_required 
+@role_required("ADMIN")
 def delete_maladie(request, pk):
         maladie = get_object_or_404(Maladie, id=pk)  # Retrieve the object
         maladie.delete()  # Delete the object

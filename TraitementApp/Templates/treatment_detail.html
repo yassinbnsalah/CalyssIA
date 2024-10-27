@@ -11,25 +11,12 @@
 <body>
     <div id="db-wrapper">
         <!-- Sidebar -->
-        <nav class="navbar-vertical navbar">
-            <div class="nav-scroller">
-                <a class="navbar-brand" href="../index.html">
-                    <img src="../assets/images/brand/logo/logo-inverse.svg" alt="" />
-                </a>
-                <ul class="navbar-nav flex-column" id="sideNavbar">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/treatments/">All Treatments</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        {% include 'sidebar.html' %}
 
         <!-- Page Content -->
         <div id="page-content">
             <div class="header">
-                <nav class="navbar-default navbar navbar-expand-lg">
-                    <a id="nav-toggle" href="#!"><i class="fe fe-menu"></i></a>
-                </nav>
+                {% include 'navbar.html' %}
             </div>
 
             <div class="container-fluid p-4">

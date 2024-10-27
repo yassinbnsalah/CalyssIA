@@ -29,43 +29,16 @@
         <li class="nav-item">
           <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navMaladies" aria-expanded="true"
             aria-controls="navMaladies">
-            <i class="nav-icon fe fe-book mr-2"></i>Maladies
+            <i class="nav-icon fe fe-book mr-2"></i> Type Maladies
           </a>
           <div id="navMaladies" class="collapse show" data-parent="#sideNavbar">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link active" href="{% url 'maladie_list_farmer' %}">All Maladies</a>
+                <a class="nav-link active" href="{% url 'type_maladie_list_farmer' %}">All Type Maladies</a>
               </li>
             </ul>
           </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navDemandes" aria-expanded="true"
-            aria-controls="navDemandes">
-            <i class="nav-icon fe fe-book mr-2"></i>Demandes de traitement
-          </a>
-          <div id="navDemandes" class="collapse show" data-parent="#sideNavbar">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link active" href="{% url 'demande_list' %}">All Demandes</a>
-              </li>
-            </ul>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navTraitements" aria-expanded="true"
-            aria-controls="navTraitements">
-            <i class="nav-icon fe fe-book mr-2"></i>Traitements
-          </a>
-          <div id="navTraitements" class="collapse show" data-parent="#sideNavbar">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link active" href="{% url 'treatment_list' %}">All Traitements</a>
-              </li>
-            </ul>
-          </div>
-        </li>
-       
+        </li>      
       </ul>
 
     </div>
