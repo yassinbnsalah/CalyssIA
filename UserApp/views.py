@@ -12,7 +12,7 @@ def register(request):
         form = CustomUserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.role = "FARMER"
+            user.role = request.POST.get('user_role')
             user.set_password(form.cleaned_data["password"])
             user.save()
             # login(request, user)
