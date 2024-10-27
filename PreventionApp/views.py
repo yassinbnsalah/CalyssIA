@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Prevention
 from .forms import PreventionForm
+from FeedbacksApp.forms import FeedbackForm  # Adjusted import for FeedbackForm
+from FeedbacksApp.models import Feedback  # Adjusted import for FeedbackForm
+
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
@@ -39,7 +42,22 @@ class PreventionDeleteView(DeleteView):
     template_name = 'prevention_confirm_delete.html'
     success_url = reverse_lazy('prevention_list')
 
-# Function-based view for showing the details of a Prevention record
+
 def prevention_detail(request, pk):
     prevention = get_object_or_404(Prevention, pk=pk)
-    return render(request, 'prevention_detail.html', {'prevention': prevention})
+    feedbacks = Feedback.objects.filter(prevention=prevention)  
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            feedback = form.save(commit=False)
+            feedback.prevention = prevention 
+            feedback.save()
+            return redirect('prevention_detail', pk=prevention.pk)  
+    else:
+        form = FeedbackForm() 
+
+    return render(request, 'prevention_detail.html', {
+        'prevention': prevention,
+        'feedbacks': feedbacks,
+        'form': form,  
+    })
