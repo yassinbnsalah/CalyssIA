@@ -1,10 +1,12 @@
 # views.py
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login ,logout
 from .forms import CustomUserRegistrationForm
 from .models import RUser
 from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth.decorators import login_required
+from .decorators import role_required
 def register(request):
     if request.method == "POST":
         form = CustomUserRegistrationForm(request.POST)
@@ -41,12 +43,18 @@ def login(request):
             messages.error(request, "Invalid email or password.")
     
     return render(request, "login.html")
-
+def logout_view(request):
+    logout(request)
+    messages.success(request, "You have been logged out.")
+    return redirect("login")
+@login_required  
+@role_required("ADMIN") 
 def dashboard_admin(request):
     
     return render(request, "dashboard_admin.html")
 
-
+@login_required 
+@role_required("FARMER")
 def dashboard_farmer(request):
     
     return render(request, "dashboard_farmer.html")

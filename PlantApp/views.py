@@ -4,21 +4,26 @@ from .models import DiseaseDetection, Plant
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from .forms import ImageUploadForm, PlantForm
+from django.contrib.auth.decorators import login_required
+from UserApp.decorators import role_required
 def home(request):
     return render(request, 'home.html')
 
-
+@login_required 
+@role_required("FARMER")
 def plant_list(request):
     plants = Plant.objects.all()  
     return render(request, 'plant_list.html', {'plants': plants})
-
+@login_required 
+@role_required("FARMER")
 def plant_details(request, pk = None):
     plant = Plant.objects.get(id = pk)  
     
     dis = DiseaseDetection.objects.filter(plant = plant).order_by('-date_detected')
     return render(request, 'plant_details.html', {'plant': plant ,'dis' : dis})
 
-
+@login_required 
+@role_required("FARMER")
 def create_plant(request):
     if request.method == 'POST':
         form = PlantForm(request.POST, request.FILES)
@@ -31,7 +36,8 @@ def create_plant(request):
     return render(request, 'create_plant.html', {'form': form})
 
 
-
+@login_required 
+@role_required("FARMER")
 def predict(request, pk=None):
     if request.method == 'POST':
         form = ImageUploadForm(request.POST, request.FILES)
@@ -89,7 +95,7 @@ class PlantCreateView(CreateView):
     success_url = reverse_lazy('plant_list')    
     def form_valid(self, form):
         form.instance.owner = self.request.user  
-        return super().form_valid(form)
+        return super().form_valid(form) 
 
 
 class PlantUpdateView(UpdateView):

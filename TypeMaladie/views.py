@@ -3,14 +3,22 @@ from .models import TypeMaladie
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import TypeMaladieForm
-
+from django.contrib.auth.decorators import login_required
+from UserApp.decorators import role_required
 def home(request):
     return render(request, 'home.html')
-
+@login_required 
+@role_required("FARMER")
+def type_maladie_list_farmer(request):
+    typemaladies = TypeMaladie.objects.all()  
+    return render(request, 'type_maladie_list_farmer.html', {'typemaladies': typemaladies})
+@login_required 
+@role_required("ADMIN")
 def type_maladie_list(request):
     typemaladies = TypeMaladie.objects.all()  
     return render(request, 'type_maladie_list.html', {'typemaladies': typemaladies})
-
+@login_required 
+@role_required("ADMIN")
 def create_type_maladie(request):
     if request.method == 'POST':
         form = TypeMaladieForm(request.POST, request.FILES)
@@ -21,7 +29,8 @@ def create_type_maladie(request):
         form = TypeMaladieForm()
     
     return render(request, 'create_type_maladie.html', {'form': form})
-
+@login_required 
+@role_required("ADMIN")
 def delete_type_maladie(request, pk):
     typemaladie = get_object_or_404(TypeMaladie, id=pk)
     typemaladie.delete()
