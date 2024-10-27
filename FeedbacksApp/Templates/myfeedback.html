@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'assets/libs/bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/theme.min.css' %}">
+    <title>Feedback List</title>
+</head>
+<body>
+    <div id="db-wrapper">
+        <!-- Sidebar -->
+        <nav class="navbar-vertical navbar">
+            <div class="nav-scroller">
+                <a class="navbar-brand" href="../index.html">
+                    <img src="../assets/images/brand/logo/logo-inverse.svg" alt="" />
+                </a>
+                <ul class="navbar-nav flex-column" id="sideNavbar">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/preventions/">All Preventions</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="page-content">
+            <div class="header">
+                <nav class="navbar-default navbar navbar-expand-lg">
+                    <a id="nav-toggle" href="#!"><i class="fe fe-menu"></i></a>
+                </nav>
+            </div>
+
+            <div class="container-fluid p-4">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="border-bottom pb-4 mb-4 d-lg-flex align-items-center justify-content-between">
+                            <div class="mb-2 mb-lg-0">
+                                <h1 class="mb-1 h2 font-weight-bold">All Feedbacks</h1>
+                            </div>
+                            <div>
+                                <a href="{% url 'feedback_all' %}" class="btn btn-primary">Back to Feedback Overview</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="card rounded-lg">
+                            <div class="p-4">
+                                <div class="table-responsive border-0 overflow-y-hidden">
+                                    <table class="table mb-0 text-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Prevention</th>
+                                                <th>Feedback</th>
+                                                <th>Rating</th>
+                                                <th>Date Created</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for feedback in feedbacks %}
+                                            <tr>
+                                                <td>{{ feedback.id }}</td>
+                                                <td>{{ feedback.prevention.title }}</td>
+                                                <td>{{ feedback.content }}</td>
+                                                <td>{{ feedback.rating }}</td>
+                                                <td>{{ feedback.date_created|date:"Y-m-d H:i:s" }}</td>
+                                                <td>
+                                                    <a href="{% url 'feedback_update' pk=feedback.id %}" class="btn btn-outline-info btn-sm">Edit</a>
+                                                    <!-- Button to trigger modal -->
+                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal{{ feedback.id }}">
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Delete Confirmation Modal -->
+                                            <div class="modal fade" id="deleteModal{{ feedback.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ feedback.id }}" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="deleteModalLabel{{ feedback.id }}">Confirm Delete</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            Are you sure you want to delete the feedback for "{{ feedback.prevention.title }}"?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <form method="POST" action="{% url 'feedback_delete' pk=feedback.id %}">
+                                                                {% csrf_token %}
+                                                                <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {% empty %}
+                                            <tr>
+                                                <td colspan="6" class="text-center">No feedbacks available.</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/theme.min.js' %}"></script>
+</body>
+</html>

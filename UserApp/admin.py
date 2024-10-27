@@ -6,21 +6,21 @@ from .models import RUser
 from django.contrib.auth.admin import UserAdmin
 
 class CustomUserAdmin(BaseUserAdmin):
-    # Customize list_display, ordering, and other attributes
-    list_display = ('email', 'name', 'is_staff')  # Adjust to your fields
-    ordering = ('email',)  # Ensure this matches your unique field (e.g., 'email')
-    fieldsets = (
-        (None, {'fields': ('email', 'password')}),
-        (_('Personal info'), {'fields': ('name',)}),  # Adjust to your fields
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
-    )
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('email', 'name', 'password1', 'password2'),
-        }),
-    )
+#     # Customize list_display, ordering, and other attributes
+     list_display = ('email', 'name', 'is_staff')  # Adjust to your fields
+     ordering = ('email',)  # Ensure this matches your unique field (e.g., 'email')
+     fieldsets = (
+         (None, {'fields': ('email', 'password')}),
+         (_('Personal info'), {'fields': ('name',)}),  # Adjust to your fields
+         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+     )
+     add_fieldsets = (
+         (None, {
+             'classes': ('wide',),
+             'fields': ('email', 'name', 'password1', 'password2'),
+         }),
+     )
 
 # Register the new UserAdmin
-admin.site.register(RUser, CustomUserAdmin)
+admin.site.register(RUser)

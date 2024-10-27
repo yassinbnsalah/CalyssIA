@@ -113,7 +113,7 @@
                           {% for plant in plants %}
                           <tr>
                             <td class="border-top-0">
-                              <a href="{% url 'details' plant.id %}" class="text-inherit">
+                              <a href="{% url 'details_plant' plant.id %}" class="text-inherit">
                                 <div class="d-lg-flex align-items-center">
                                   <div>
                                     <img src="{{ plant.image.url }}" alt="" class="img-4by3-lg rounded" />
@@ -138,6 +138,7 @@
                             <td class="align-middle border-top-0">
                               <a href="{% url 'plant-update' plant.id %}" class="btn btn-outline-info btn-sm">Update</a>
                               <a href="{% url 'predict' plant.id %}" class="btn btn-success btn-sm">Predicte</a>
+                            
                               <a href="{% url 'plant-delete' plant.id %}" class="btn btn-danger btn-sm">Delete</a>
                             </td>
 
