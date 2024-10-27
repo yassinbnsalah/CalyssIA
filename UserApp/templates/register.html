@@ -51,7 +51,15 @@
                                 <label for="id_password_confirm">Confirm Password</label>
                                 {{ form.confirm_password }}
                             </div>
-
+                            
+                            <div class="form-group">
+                                <label for="id_password_confirm">Create an account as : </label>
+                                <select class="form-control" name="user_role"> 
+                                    <option value="Doctor"> Doctor </option>
+                                    <option value="Farmer"> Farmer </option>
+                                </select>
+                            </div>
+                            
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="agreeCheck" required>
