@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'UserApp',
     'TraitementApp',
     'PreventionApp',
-    'DemandeTraitement'
+    'DemandeTraitement',
+    'MethodeTraitementApp',
+    'FeedbacksApp',
 ]
 
 MIDDLEWARE = [

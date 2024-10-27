@@ -28,7 +28,7 @@ urlpatterns = [
     path('', include('UserApp.urls')) ,
     path('', include('TypeMaladie.urls')),
     path('', include('DemandeTraitement.urls')), 
-    
+    path('', include('MethodeTraitementApp.urls')),     
 
 ]
 if settings.DEBUG:
