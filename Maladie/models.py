@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from TypeMaladie.models import TypeMaladie  
+from TraitementApp.models import Treatment  
 
 class Maladie(models.Model):
     nom = models.CharField(max_length=200, unique=True, verbose_name="Nom de la maladie")
@@ -11,6 +12,8 @@ class Maladie(models.Model):
     date_publication = models.DateTimeField(auto_now_add=True, verbose_name="Date de publication")
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='maladies', null=True)
     types = models.ManyToManyField(TypeMaladie, related_name='maladies', verbose_name="Types de maladies")
+
+    traitements = models.ManyToManyField(Treatment, related_name="maladies", verbose_name="Traitements")
 
     class Meta:
         verbose_name = "Maladie"
