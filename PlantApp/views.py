@@ -94,7 +94,7 @@ class PlantCreateView(CreateView):
     success_url = reverse_lazy('plant_list')    
     def form_valid(self, form):
         form.instance.owner = self.request.user  
-        return super().form_valid(form)
+        return super().form_valid(form) 
 
 
 class PlantUpdateView(UpdateView):
