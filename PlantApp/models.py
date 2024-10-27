@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 
+from DemandeTraitement.models import DemandeTraitement
+
 class Plant(models.Model):
     name = models.CharField(max_length=100)
     scientific_name = models.CharField(max_length=100, blank=True, null=True)
@@ -18,7 +20,7 @@ class DiseaseDetection(models.Model):
     confidence_score = models.FloatField(null = True)
     image = models.ImageField(upload_to='detections/', blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
-    
+    demande = models.ForeignKey(DemandeTraitement , null = True , on_delete= models.CASCADE)
     def __str__(self):
         return f'{self.detected_disease} on {self.plant.name}'
 

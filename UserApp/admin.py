@@ -23,4 +23,4 @@ class CustomUserAdmin(BaseUserAdmin):
      )
 
 # Register the new UserAdmin
-admin.site.register(RUser)
+admin.site.register(RUser, CustomUserAdmin)

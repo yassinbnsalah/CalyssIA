@@ -4,28 +4,28 @@
 
 <head>
   <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <!-- Favicon icon-->
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/favicon/favicon.ico' %}">
+  <!-- Favicon icon-->
+  <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/favicon/favicon.ico' %}">
 
 
-    <!-- Libs CSS -->
-    <link href="{% static 'assets/fonts/feather/feather.css' %}" rel="stylesheet" />
-    <link href="{% static 'assets/libs/dragula/dist/dragula.min.css' %}" rel="stylesheet" />
-    <link href="{% static 'assets/libs/@mdi/font/css/materialdesignicons.min.css' %}" rel="stylesheet" />
-    <link href="{% static 'assets/libs/prismjs/themes/prism.css' %}" rel="stylesheet" />
-    <link href="{% static 'assets/libs/dropzone/dist/dropzone.css' %}" rel="stylesheet" />
-    <link href="{% static 'assets/libs/magnific-popup/dist/magnific-popup.css' %}" rel="stylesheet" />
-    <link href="{% static 'assets/libs/bootstrap-select/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
-    <link href="{% static 'assets/libs/@yaireo/tagify/dist/tagify.css' %}" rel="stylesheet">
-    <link href="{% static 'assets/libs/tiny-slider/dist/tiny-slider.css' %}" rel="stylesheet">
-    <link href="{% static 'assets/libs/tippy.js/dist/tippy.css' %}" rel="stylesheet">
+  <!-- Libs CSS -->
+  <link href="{% static 'assets/fonts/feather/feather.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/libs/dragula/dist/dragula.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/libs/@mdi/font/css/materialdesignicons.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/libs/prismjs/themes/prism.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/libs/dropzone/dist/dropzone.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/libs/magnific-popup/dist/magnific-popup.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/libs/bootstrap-select/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/libs/@yaireo/tagify/dist/tagify.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/libs/tiny-slider/dist/tiny-slider.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/libs/tippy.js/dist/tippy.css' %}" rel="stylesheet">
 
 
-    <!-- Theme CSS -->
-    <link rel="stylesheet" href="{% static 'assets/css/theme.min.css' %}">
+  <!-- Theme CSS -->
+  <link rel="stylesheet" href="{% static 'assets/css/theme.min.css' %}">
   <title>Plant List</title>
 </head>
 
@@ -113,7 +113,7 @@
                           {% for plant in plants %}
                           <tr>
                             <td class="border-top-0">
-                              <a href="{% url 'details_plant' plant.id %}" class="text-inherit">
+                              <a href="{% url 'PlantApp:details_plant' plant.id %}" class="text-inherit">
                                 <div class="d-lg-flex align-items-center">
                                   <div>
                                     <img src="{{ plant.image.url }}" alt="" class="img-4by3-lg rounded" />
@@ -136,10 +136,13 @@
                               {{ plant.description }}
                             </td>
                             <td class="align-middle border-top-0">
-                              <a href="{% url 'plant-update' plant.id %}" class="btn btn-outline-info btn-sm">Update</a>
-                              <a href="{% url 'predict' plant.id %}" class="btn btn-success btn-sm">Predicte</a>
-                            
-                              <a href="{% url 'plant-delete' plant.id %}" class="btn btn-danger btn-sm">Delete</a>
+                              <a href="{% url 'PlantApp:plant-update' plant.id %}"
+                                class="btn btn-outline-info btn-sm">Update</a>
+                              <a href="{% url 'PlantApp:predict' plant.id %}"
+                                class="btn btn-success btn-sm">Predicte</a>
+
+                              <a href="{% url 'PlantApp:plant-delete' plant.id %}"
+                                class="btn btn-danger btn-sm">Delete</a>
                             </td>
 
                           </tr>

@@ -166,14 +166,14 @@
                     <div class="card-body p-5">
                         <table class="table">
                             <thead>
-                               <tr>
-                                  <th scope="col">#</th>
-                                  <th scope="col">Disease Detection</th>
-                                  <th scope="col">Confidence Score</th>
-                                  <th scope="col">Date Detected</th>
-                                  <th scope="col">Notes</th>
-                                  <th></th>
-                               </tr>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Disease Detection</th>
+                                    <th scope="col">Confidence Score</th>
+                                    <th scope="col">Date Detected</th>
+                                    <th scope="col">Notes</th>
+                                    <th></th>
+                                </tr>
                             </thead>
                             <tbody>
                                 {% for di in dis %}
@@ -185,18 +185,19 @@
                                     <td>
                                         <div class="alert alert-danger">{{ di.notes }}</div>
                                     </td>
-                                    <td>
-                                        {% if di.demande_traitement.exists %}
-                                            <span class="text-success">Treatment Requested</span>
+                                    <td> {% if di.demande %}
+                                        <span class="text-success">Treatment  Status :
+                                            <span class="badge badge-info"> {{di.demande.status}}</span></span>
                                         {% else %}
-                                            <a href="{% url 'demande_create' di.id %}" class="btn btn-danger">Request Treatment</a>
+                                        <a href="{% url 'demande_create' di.id %}" class="btn btn-danger">Request
+                                            Treatment</a>
                                         {% endif %}
                                     </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
-                        
+
                     </div>
                 </div>
         </div>
