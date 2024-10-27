@@ -18,8 +18,11 @@ def createDemande(request, pk):
         form = DemandeTraitementForm(request.POST)
         if form.is_valid():
             demande = form.save(commit=False)
-            demande.disease = disease
+            demande.status = "en_attente"
+            demande.title_desease = disease.plant.name  +" is problem in "+ disease.detected_disease
             demande.save()
+            disease.demande = demande 
+            disease.save()
             return redirect('PlantApp:details_plant', pk=disease.plant.id)
     else:
         form = DemandeTraitementForm()
@@ -55,6 +58,32 @@ def DemandeTraitementDeleteView(request, pk):
     return render(request, 'demande_traitement/confirm_delete.html', {'demande': demande})
 
 
+def create_rendezvous(request, demande_id):
+    # Get the DemandeTraitement instance or simulate details if needed
+    demande = get_object_or_404(DemandeTraitement, pk=demande_id)
+    
+    if request.method == 'POST':
+        form = RendezVousForm(request.POST)
+        if form.is_valid():
+            rendezvous = form.save(commit=False)
+            rendezvous.demande = demande  # Associate the rendezvous with the demande
+            demande.status = "approuve"
+            demande.save()
+            rendezvous.save()
+            return redirect('demande_list')  # Redirect after successful creation
+    else:
+        form = RendezVousForm()
+
+    # Pass demande details to the context
+    context = {
+        'form': form,
+        'demande': {
+            'id': demande.id,
+            'objet': "Objet fictif de la demande"  # Replace with actual details if available
+        }
+    }
+
+    return render(request, 'demande_traitement/create_rendezvous.html', context)
 class RendezVousCreateView(CreateView):
     model = RendezVous
     form_class = RendezVousForm

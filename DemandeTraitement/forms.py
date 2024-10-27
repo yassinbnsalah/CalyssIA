@@ -5,7 +5,7 @@ from .models import DemandeTraitement, RendezVous
 class DemandeTraitementForm(forms.ModelForm):
     class Meta:
         model = DemandeTraitement
-        fields = [ 'description', 'status']
+        fields = [ 'description']
         
     def __init__(self, *args, **kwargs):
         super(DemandeTraitementForm, self).__init__(*args, **kwargs)

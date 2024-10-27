@@ -126,9 +126,7 @@
                     <div class="col-lg-12 col-md-12 col-12">
                         <div class="border-bottom pb-4 mb-4 d-lg-flex align-items-center justify-content-between">
                             <h1 class="mb-1 h2 font-weight-bold">Liste des demandes de traitement</h1>
-                            <div>
-                                <a href="{% url 'demande_create' %}" class="btn btn-primary">Créer une nouvelle demande</a>
-                            </div>
+                         
                         </div>
                     </div>
                 </div>
@@ -140,7 +138,7 @@
                                     <thead>
                                         <tr>
                                             <th scope="col" class="border-0 text-uppercase">Plante</th>
-                                            <th scope="col" class="border-0 text-uppercase">Description</th>
+                                         
                                             <th scope="col" class="border-0 text-uppercase">Date de Demande</th>
                                             <th scope="col" class="border-0 text-uppercase">Statut</th>
                                             <th scope="col" class="border-0 text-uppercase">Actions</th>
@@ -149,10 +147,9 @@
                                     <tbody>
                                         {% for demande in demandes %}
                                         <tr>
-                                            <td>{{ demande.plant.name }}</td>
-                                            <td>{{ demande.description }}</td>
+                                            <td><a href="#" data-toggle="modal" data-target="#desc{{demande.id}}">{{ demande.title_desease }}</a></td>
                                             <td>{{ demande.date_demande|date:"d/m/Y H:i" }}</td>
-                                            <td>{{ demande.get_status_display }}</td>
+                                            <td><span class="badge badge-danger"> {{ demande.get_status_display }}</span></td>
                                             <td>
                                                 <a href="{% url 'demande_update' demande.id %}" class="btn btn-outline-info btn-sm">Modifier</a>
                                                 <a href="{% url 'rendezvous_create' demande.id %}" class="btn btn-outline-primary btn-sm">Prendre un rendez-vous</a>
@@ -163,10 +160,31 @@
                                                 </form>
                                             </td>
                                         </tr>
+                                        <div class="modal" id="desc{{demande.id}}" tabindex="-1" 
+                                        role="dialog" aria-labelledby="descLabel"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h4 class="modal-title mb-0" id="descLabel">
+                                                {{demande.title_desease}}
+                                              </h4>
+                                              <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true"><i class="fe fe-x-circle"></i></span>
+                                            </button>
+                                            </div>
+                                            <div class="modal-body">
+                                              {{demande.description}}
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
                                         {% empty %}
                                         <tr>
                                             <td colspan="5">Aucune demande trouvée.</td>
                                         </tr>
+      
+                                    
                                         {% endfor %}
                                     </tbody>
                                 </table>
