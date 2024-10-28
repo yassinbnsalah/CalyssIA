@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+
+from Maladie.models import Maladie
 from .models import Treatment
 from .forms import TreatmentForm
 from django.urls import reverse_lazy
@@ -12,15 +14,17 @@ def treatment_list(request):
     return render(request, 'treatment_list.html', {'treatments': treatments})
 @login_required 
 @role_required("DOCTOR")
-def create_treatment(request):
+def create_treatment(request, pk):
     if request.method == 'POST':
+        maladie = get_object_or_404(Maladie, id=pk)
         form = TreatmentForm(request.POST)
         if form.is_valid():
             form.save()
+            treatment = form.save()
+            maladie.traitements.add(treatment)
             return redirect('treatment_list') 
     else:
         form = TreatmentForm()
-    
     return render(request, 'treatment_form.html', {'form': form})
 
 class TreatmentCreateView(CreateView):
