@@ -57,23 +57,22 @@
                     <div class="form-group mb-3">
                         <label for="id_name" class="form-label">Treatment Name:</label>
                         {{ form.name }}
-                        <button type="button" class="btn btn-secondary" onclick="generateDescription()">Generate Description</button>
-                        <small class="form-text text-muted">Please provide a descriptive name for the treatment.</small>
+                       
                     </div>
                     
                     <div class="form-group mb-3">
-                        <label for="id_description" class="form-label">Treatment Description:</label>
+                        <label for="id_description" class="form-label">Description:</label>
                         {{ form.description }}
-                        <small class="form-text text-muted">Provide a brief summary of the treatment.</small>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-info generate-btn mt-2" onclick="generateDescription()">
+                            Generate Description
+                        </button>
+                        <small class="form-text text-muted">Please provide a descriptive name for the treatment.</small>
+
                     </div>
 
-                    <!-- Date Applied -->
-                    <div class="form-group mb-3">
-                        <label for="id_date_applied" class="form-label">Date Applied:</label>
-                        {{ form.date_applied }}
-                        <small class="form-text text-muted">Enter the date the treatment was applied.</small>
-                    </div>
-
+               
                     <!-- Success Rate -->
                     <div class="form-group mb-3">
                         <label for="id_success_rate" class="form-label">Success Rate (%):</label>
@@ -128,30 +127,32 @@
 
     <!-- Theme JS -->
     <script src={% static 'assets/js/theme.min.js' %}></script>
-<script>
-    function generateDescription() {
-        // Get the treatment name value from the form field
-        const maladieName = document.getElementById('id_name').value;
-
-        // Make an AJAX POST request to fetch the generated description
-        $.ajax({
-            url: "{% url 'generate_treatment_description' %}", // Ensure this URL is correct
-            type: "POST",
-            data: JSON.stringify({ maladie_name: maladieName }),
-            contentType: "application/json",
-            headers: {
-                "X-CSRFToken": "{{ csrf_token }}" // Include CSRF token for security
-            },
-            success: function(response) {
-                // Populate the description field with the generated text
-                document.getElementById('id_description').value = response.description;
-            },
-            error: function(error) {
-                console.error("Error generating description:", error);
-            }
-        });
-    }
-</script>
+    <script>
+        function generateDescription() {
+            // Get maladie name dynamically from the page
+            const maladieName = "{{ maladie_name }}";
+            
+            fetch("{% url 'generate_treatment_description' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                body: JSON.stringify({ maladie_name: maladieName })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.description) {
+                    // Set the generated description in the description field
+                    document.getElementById("id_description").value = data.description;
+                } else {
+                    alert("Failed to generate description. Try again.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+    
     <script>
         function toggleAll(selectAllCheckbox) {
             const checkboxes = document.querySelectorAll('.form-check-input[type="checkbox"]');

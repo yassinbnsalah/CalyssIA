@@ -6,14 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from UserApp.decorators import role_required
 import os
-import json  # For JSON parsing
+import json  
 import google.generativeai as genai
-
+from django.utils import timezone  
 from Maladie.models import Maladie
 from .models import Treatment
 from .forms import TreatmentForm
 
-# Configure Google API
 # Configure Google API
 GOOGLE_API = 'AIzaSyANfuF0wGsR1M1wKZ2NvEaFjPPkZ-nWxGY'
 genai.configure(api_key=GOOGLE_API)
@@ -23,7 +22,7 @@ def ai_generate_treatment_description(maladie_name):
     model = genai.GenerativeModel('gemini-1.5-flash')
     prompt = f"Generate a detailed treatment description in 4 lines for the illness: {maladie_name}"
     response = model.generate_content(prompt)
-    return response.text.strip()  # Return only the description
+    return response.text.strip()  
 
 # AJAX view to generate treatment description
 @csrf_exempt
@@ -54,7 +53,8 @@ def create_treatment(request, pk):
         if form.is_valid():
             treatment = form.save(commit=False)
             treatment.maladie = maladie
-            treatment.description = ai_generate_treatment_description(maladie.nom)  # Generate description
+            treatment.description = ai_generate_treatment_description(maladie.nom) 
+            treatment.date_applied = timezone.now().date() 
             treatment.save()
             maladie.traitements.add(treatment)
             return redirect('treatment_list')
@@ -64,14 +64,12 @@ def create_treatment(request, pk):
     return render(request, 'treatment_form.html', {'form': form, 'maladie_name': maladie.nom})
 
 
-# Treatment Detail View
 @login_required 
 @role_required("DOCTOR")
 def treatment_detail(request, pk):
     treatment = get_object_or_404(Treatment, pk=pk)
     return render(request, 'treatment_detail.html', {'treatment': treatment})
 
-# Class-based views for CRUD operations
 class TreatmentCreateView(CreateView):
     model = Treatment
     form_class = TreatmentForm
@@ -81,7 +79,7 @@ class TreatmentCreateView(CreateView):
 class TreatmentUpdateView(UpdateView):
     model = Treatment
     form_class = TreatmentForm
-    template_name = 'treatment_update_form.html'  # This will be a separate page for updating
+    template_name = 'treatment_update_form.html' 
     success_url = reverse_lazy('treatment_list')
 
 class TreatmentDeleteView(DeleteView):
