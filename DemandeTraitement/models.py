@@ -23,11 +23,11 @@ class DemandeTraitement(models.Model):
     status = models.CharField(
         max_length=20,
         choices=[
-            ('en_attente', 'En attente'),
-            ('approuve', 'Approuvé'),
-            ('rejeté', 'Rejeté')
+            ('on hold', 'En attente'),
+            ('approved', 'Approuvé'),
+            ('rejected', 'Rejeté')
         ],
-        default='en_attente'
+        default='on hold'
     )
 
     def __str__(self):

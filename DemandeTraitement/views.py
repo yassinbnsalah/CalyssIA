@@ -18,9 +18,10 @@ def createDemande(request, pk):
         form = DemandeTraitementForm(request.POST)
         if form.is_valid():
             demande = form.save(commit=False)
-            demande.status = "en_attente"
+            demande.status = "on hold"
             
             demande.title_desease = disease.plant.name  +" is problem in "+ disease.detected_disease
+            form.instance.from_farmer = request.user  
             demande.save()
             disease.demande = demande 
             disease.save()
@@ -63,7 +64,7 @@ from datetime import datetime, timedelta
 def create_rendezvous(request, demande_id):
     # Get the associated DemandeTraitement object
     demande = get_object_or_404(DemandeTraitement, pk=demande_id)
-    form_class = DemandeTraitementForm
+    form_class = RendezVousForm
     if request.method == 'POST':
         form = RendezVousForm(request.POST)
         if form.is_valid():
@@ -86,7 +87,7 @@ def create_rendezvous(request, demande_id):
                 
                 # Update the demande status and save it
                 demande.rendezv = rendezvous
-                demande.status = "approuve"
+                demande.status = "approved"
                 demande.save()
                 
                 return redirect('demande_list')  # Redirect after successful creation

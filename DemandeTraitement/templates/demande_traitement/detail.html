@@ -2,16 +2,16 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Détails de la Demande de Traitement</title>
+    <title>Détails of the processing requests</title>
 </head>
 <body>
-    <h2>Détails de la Demande de Traitement</h2>
+    <h2>Détails of the processing requests</h2>
     <p><strong>Plante:</strong> {{ object.plant }}</p>
     <p><strong>Description:</strong> {{ object.description }}</p>
     <p><strong>Date de Demande:</strong> {{ object.date_demande|date:"d/m/Y H:i" }}</p>
     <p><strong>Statut:</strong> {{ object.status }}</p>
 
-    <h3>Rendez-vous associés</h3>
+    <h3>Appointment</h3>
     <ul>
         {% for rendezvous in rendezvous_list %}
             <li>
@@ -19,10 +19,10 @@
                 <strong>Notes:</strong> {{ rendezvous.notes }}
             </li>
         {% empty %}
-            <li>Aucun rendez-vous associé.</li>
+            <li>Empty.</li>
         {% endfor %}
     </ul>
 
-    <a href="{% url 'demande_list' %}">Retour à la liste des demandes</a>
+    <a href="{% url 'demande_list' %}">Back</a>
 </body>
 </html>

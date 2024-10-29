@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créer une demande de traitement</title>
+    <title>Make an appointment </title>
 
     <!-- Favicon icon-->
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/favicon/favicon.ico' %}">
@@ -20,16 +20,16 @@
         <!-- Card -->
         <div class="card mb-3">
             <div class="card-header border-bottom px-4 py-3">
-                <h4 class="mb-0">Créer un nouveau rendez-vous</h4>
+                <h4 class="mb-0">Make an appointment</h4>
             </div>
 
             <div class="card-body">
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}  <!-- Afficher les champs du formulaire -->
-        <button type="submit" class="btn btn-primary">Soumettre</button>
+        <button type="submit" class="btn btn-primary">Validate</button>
         <a href="{% url 'demande_list' %}" class="btn btn-dark">
-            Retour à la liste des demandes
+            Back
         </a>
     </form>
 </div>
