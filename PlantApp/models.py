@@ -2,13 +2,14 @@ from django.db import models
 from django.conf import settings
 
 from DemandeTraitement.models import DemandeTraitement
+from UserApp.models import RUser
 
 class Plant(models.Model):
     name = models.CharField(max_length=100)
     scientific_name = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='plants/', blank=True, null=True)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='plants' , null = True)
+    owner = models.ForeignKey(RUser, on_delete=models.CASCADE, related_name='plants', null=True)
 
     def __str__(self):
         return self.name
