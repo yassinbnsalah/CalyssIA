@@ -115,6 +115,7 @@
                         <tbody>
                           {% for plant in plants %}
                           <tr>
+                            {% if request.user == plant.owner %}
                             <td class="border-top-0">
                               <a href="{% url 'PlantApp:details_plant' plant.id %}" class="text-inherit">
                                 <div class="d-lg-flex align-items-center">
@@ -152,7 +153,7 @@
                               {% endif %}
 
                             </td>
-
+                            {% endif %}
                           </tr>
                           {% empty %}
                           <tr>No plants available.</tr>

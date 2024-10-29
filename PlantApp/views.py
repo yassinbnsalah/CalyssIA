@@ -25,6 +25,7 @@ def create_plant(request):
     if request.method == 'POST':
         form = PlantForm(request.POST, request.FILES)
         if form.is_valid():
+            form.instance.owner = request.user
             form.save()
             return redirect('PlantApp:plant_list') 
     else:

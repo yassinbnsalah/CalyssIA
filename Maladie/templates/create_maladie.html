@@ -38,6 +38,8 @@
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
+                    <img id="imagePreview" style="display: none; max-width: 200px; margin-top: 10px;" alt="Image Preview">
+
                     <!-- Image Upload -->
                     <div class="form-group mb-3">
                         <label for="id_image" class="form-label">Upload Image</label>
@@ -90,7 +92,16 @@
             </div>
         </div>
     </div>
-
+    <script>
+        document.getElementById('id_image').onchange = function(event) {
+            let [file] = event.target.files;
+            if (file) {
+                let preview = document.getElementById('imagePreview');
+                preview.src = URL.createObjectURL(file);
+                preview.style.display = 'block';
+            }
+        };
+        </script>
 <script>
     document.getElementById('generate-description-btn').addEventListener('click', function () {
     

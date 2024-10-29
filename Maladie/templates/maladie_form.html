@@ -23,7 +23,7 @@
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="{% static 'assets/css/theme.min.css' %}">
-    <title>Application de Maladie</title>
+    <title>Application for Disease</title>
 </head>
 
 <body>
@@ -31,52 +31,66 @@
         <!-- Card -->
         <div class="card mb-3">
             <div class="card-header border-bottom px-4 py-3">
-                <h4 class="mb-0">Formulaire d'Application de Maladie</h4>
+                <h4 class="mb-0">Disease Application Form</h4>
             </div>
 
             <!-- Card body -->
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
+                    <img id="imagePreview" style="display: none; max-width: 200px; margin-top: 10px;" alt="Image Preview">
+
                     <!-- Image -->
                     <div class="form-group mb-3">
-                        <label for="id_image" class="form-label">Image de la maladie</label>
-                        {{ form.image }} <!-- Utilisation du champ image du formulaire -->
+                        <label for="id_image" class="form-label">Disease Image</label>
+                        {{ form.image }} <!-- Using the image field from the form -->
                     </div>
-                    <!-- Nom de la maladie -->
+                    <!-- Disease Name -->
                     <div class="form-group mb-3">
-                        <label for="id_nom" class="form-label">Nom de la maladie</label>
-                        {{ form.nom }} <!-- Utilisation du champ nom du formulaire -->
+                        <label for="id_nom" class="form-label">Disease Name</label>
+                        {{ form.nom }} <!-- Using the name field from the form -->
                     </div>
-      
+                    <div class="form-group mb-3">
+                        <label for="id_type" class="form-label">Disease Type</label>
+                        {{ form.types }} <!-- Using the type field from the form -->
+                    </div>
                     <!-- Description -->
                     <div class="form-group mb-3">
-                        <label for="id_description" class="form-label">Description de la maladie</label>
-                        {{ form.description }} <!-- Utilisation du champ description du formulaire -->
+                        <label for="id_description" class="form-label">Disease Description</label>
+                        {{ form.description }} <!-- Using the description field from the form -->
                     </div>
-
-
-
 
                     <!-- Causes -->
                     <div class="form-group mb-3">
-                        <label for="id_causes" class="form-label">Causes de la maladie</label>
-                        {{ form.causes }} <!-- Utilisation du champ causes du formulaire -->
+                        <label for="id_causes" class="form-label">Disease Causes</label>
+                        {{ form.causes }} <!-- Using the causes field from the form -->
                     </div>
 
-                    <!-- Symptômes -->
+                    <!-- Symptoms -->
                     <div class="form-group mb-3">
-                        <label for="id_symptomes" class="form-label">Symptômes observables</label>
-                        {{ form.symptomes }} <!-- Utilisation du champ symptomes du formulaire -->
+                        <label for="id_symptomes" class="form-label">Observable Symptoms</label>
+                        {{ form.symptomes }} <!-- Using the symptoms field from the form -->
                     </div>
 
                     <!-- Submit Button -->
-                    <button type="submit" class="btn btn-primary">Soumettre l'Application</button>
+                    <button type="submit" class="btn btn-primary">Submit </button>
+                    <a href="{% url 'maladie_list' %}" class="btn btn-dark">
+                        Back
+                    </a>
                 </form>
             </div>
         </div>
     </div>
-
+    <script>
+        document.getElementById('id_image').onchange = function(event) {
+            let [file] = event.target.files;
+            if (file) {
+                let preview = document.getElementById('imagePreview');
+                preview.src = URL.createObjectURL(file);
+                preview.style.display = 'block';
+            }
+        };
+        </script>
     <!-- Libs JS -->
     <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
     <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>

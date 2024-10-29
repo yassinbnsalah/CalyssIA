@@ -21,6 +21,7 @@ def createDemande(request, pk):
             demande.status = "en_attente"
             
             demande.title_desease = disease.plant.name  +" is problem in "+ disease.detected_disease
+            form.instance.from_farmer = request.user  
             demande.save()
             disease.demande = demande 
             disease.save()
