@@ -28,6 +28,9 @@
         {% csrf_token %}
         {{ form.as_p }}  <!-- Afficher les champs du formulaire -->
         <button type="submit" class="btn btn-primary">Soumettre</button>
+        <a href="{% url 'demande_list' %}" class="btn btn-dark">
+            Retour à la liste des demandes
+        </a>
     </form>
 </div>
    
