@@ -32,49 +32,13 @@
 <body>
     <div id="db-wrapper">
         <!-- Sidebar -->
-        <nav class="navbar-vertical navbar">
-            <div class="nav-scroller">
-                <!-- Brand logo -->
-                <a class="navbar-brand" href="../index.html"><img src="../assets/images/brand/logo/logo-inverse.svg"
-                        alt="" /></a>
-                <ul class="navbar-nav flex-column" id="sideNavbar">
-                    <li class="nav-item">
-                        <a class="nav-link" href="admin-dashboard.html">
-                            <i class="nav-icon fe fe-home mr-2"></i>Dashboard
-                        </a>
-                    </li>
-                    <!-- Nav item -->
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navCourses"
-                            aria-expanded="true" aria-controls="navCourses">
-                            <i class="nav-icon fe fe-book mr-2"></i>Plants
-                        </a>
-                        <div id="navCourses" class="collapse show" data-parent="#sideNavbar">
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="/plants/">All Plants
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+        {% include 'sidebarfarmer.html' %}
 
-                </ul>
-
-            </div>
-        </nav>
         <!-- Page Content -->
         <div id="page-content">
             <div class="header">
                 <!-- Navbar -->
-                <nav class="navbar-default navbar navbar-expand-lg">
-                    <a id="nav-toggle" href="#!"><i class="fe fe-menu"></i></a>
-                    <div class="ml-lg-3 d-none d-md-none d-lg-block">
-                        <!-- Search -->
-
-                        <!-- Navbar nav -->
-
-                </nav>
+                {% include 'navbar.html' %}
             </div>
             <!-- Container fluid -->
             <section class="container-fluid p-4">
@@ -153,7 +117,7 @@
                                         <div class="col-md-6">
                                             <div class="d-grid">
                                                 <!-- btn -->
-                                                <a href="{% url 'predict' plant.id %}" class="btn btn-danger">
+                                                <a href="{% url 'PlantApp:predict' plant.id %}" class="btn btn-danger">
                                                     <i class="fe fe-shopping-cart me-2"></i>
                                                     Disease Detection
                                                 </a>
@@ -202,24 +166,38 @@
                     <div class="card-body p-5">
                         <table class="table">
                             <thead>
-                               <tr>
-                                  <th scope="col">#</th>
-                                  <th scope="col">Disease Detection</th>
-                                  <th scope="col">confidence score</th>
-                                  <th scope="col">date_detected</th>
-                               </tr>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Disease Detection</th>
+                                    <th scope="col">Confidence Score</th>
+                                    <th scope="col">Date Detected</th>
+                                    <th scope="col">Notes</th>
+                                    <th></th>
+                                </tr>
                             </thead>
                             <tbody>
                                 {% for di in dis %}
-                               <tr>
-                                  <th scope="row">{{di.id}}</th>
-                                  <td>{{di.detected_disease}}</td>
-                                  <td>{{di.confidence_score}}</td>
-                                  <td>{{di.date_detected}}</td>
-                               </tr>
-                               {% endfor %}
+                                <tr>
+                                    <th scope="row">{{ di.id }}</th>
+                                    <td>{{ di.detected_disease }}</td>
+                                    <td>{{ di.confidence_score }}</td>
+                                    <td>{{ di.date_detected }}</td>
+                                    <td>
+                                        <div class="alert alert-danger">{{ di.notes }}</div>
+                                    </td>
+                                    <td> {% if di.demande %}
+                                        <span class="text-success">Treatment  Status :
+                                            <span class="badge badge-info"> {{di.demande.status}}</span></span>
+                                        {% else %}
+                                        <a href="{% url 'demande_create' di.id %}" class="btn btn-danger">Request
+                                            Treatment</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
                             </tbody>
-                         </table>
+                        </table>
+
                     </div>
                 </div>
         </div>

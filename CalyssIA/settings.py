@@ -38,7 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'PlantApp',
-    'UserApp'
+    'Maladie',
+    'TypeMaladie',
+    'UserApp',
+    'TraitementApp',
+    'PreventionApp',
+    'DemandeTraitement',
+    'MethodeTraitementApp',
+    'FeedbacksApp',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +76,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'CalyssIA.wsgi.application'
+# settings.py
+AUTH_USER_MODEL = "UserApp.RUser"
 
 
 # Database
@@ -111,6 +120,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+APPEND_SLASH = False
 
 import os
 # Static files (CSS, JavaScript, Images)
