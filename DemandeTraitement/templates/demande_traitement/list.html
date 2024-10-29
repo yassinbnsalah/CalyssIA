@@ -72,8 +72,9 @@
                                                     class="btn btn-outline-info btn-sm">Modifier</a>
                                                 {% if demande.rendezv %}
                                                 
-                                                <button class="btn btn-primary btn-sm" disabled> {{ demande.rendezv.date | date:"d/m/y"  }}</button>
-                                             
+                                                <a class="btn btn-primary btn-sm" href="{{ demande.rendezv.rdv_link }}">
+                                                    {{ demande.rendezv.date|date:"d/m/y" }}
+                                                </a>    
                                                 {% else %}
                                                 <a href="{% url 'rendezvous_create' demande.id %}"
                                                 class="btn btn-outline-primary btn-sm">Prendre un rendez-vous</a>

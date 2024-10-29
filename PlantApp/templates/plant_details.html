@@ -188,6 +188,7 @@
                                     <td> {% if di.demande %}
                                         <span class="text-success">Treatment  Status :
                                             <span class="badge badge-info"> {{di.demande.status}}</span></span>
+                                        
                                         {% else %}
                                         <a href="{% url 'demande_create' di.id %}" class="btn btn-danger">Request
                                             Treatment</a>
