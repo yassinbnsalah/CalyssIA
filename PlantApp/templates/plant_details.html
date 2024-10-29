@@ -32,8 +32,11 @@
 <body>
     <div id="db-wrapper">
         <!-- Sidebar -->
+        {% if request.user.role == 'FARMER' %}
         {% include 'sidebarfarmer.html' %}
-
+    {% elif request.user.role == 'DOCTOR' %}
+        {% include 'sidebar.html' %}
+    {% endif %}
         <!-- Page Content -->
         <div id="page-content">
             <div class="header">

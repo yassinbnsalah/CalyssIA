@@ -10,12 +10,10 @@ def home(request):
     return render(request, 'home.html')
 
 @login_required 
-@role_required("FARMER")
 def plant_list(request):
     plants = Plant.objects.all()  
     return render(request, 'plant_list.html', {'plants': plants})
 @login_required 
-@role_required("FARMER")
 def plant_details(request, pk = None):
     plant = Plant.objects.get(id = pk)  
     
@@ -23,7 +21,6 @@ def plant_details(request, pk = None):
     return render(request, 'plant_details.html', {'plant': plant ,'dis' : dis})
 
 @login_required 
-@role_required("FARMER")
 def create_plant(request):
     if request.method == 'POST':
         form = PlantForm(request.POST, request.FILES)
@@ -37,7 +34,6 @@ def create_plant(request):
 
 
 @login_required 
-@role_required("FARMER")
 def predict(request, pk=None):
     if request.method == 'POST':
         form = ImageUploadForm(request.POST, request.FILES)

@@ -60,12 +60,7 @@ def create_maladie(request):
     
     return render(request, 'create_maladie.html', {'form': form})
 
-@login_required 
-@role_required("DOCTOR")
-def delete_maladie(request, pk):
-        maladie = get_object_or_404(Maladie, id=pk)  # Retrieve the object
-        maladie.delete()  # Delete the object
-        return redirect('maladie_list')  # Redirect after deletion
+
 
 
 class MaladieCreateView(CreateView):
@@ -77,6 +72,12 @@ class MaladieCreateView(CreateView):
         form.instance.owner = self.request.user  
         return super().form_valid(form)
  
+@login_required 
+@role_required("DOCTOR")
+def delete_maladie(request, pk):
+        maladie = get_object_or_404(Maladie, id=pk)  # Retrieve the object
+        maladie.delete()  # Delete the object
+        return redirect('maladie_list')  # Redirect after deletion
  
 class MaladieUpdateView(UpdateView):
     model = Maladie

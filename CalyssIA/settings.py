@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os;
+OPENAI_API_KEY = os.getenv('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')  # Make sure to set this in your environment
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+        'channels',
+
     'PlantApp',
     'Maladie',
     'TypeMaladie',
@@ -76,6 +81,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'CalyssIA.wsgi.application'
+ASGI_APPLICATION = 'CalyssIA.asgi.application'  # Add this line
+
 # settings.py
 AUTH_USER_MODEL = "UserApp.RUser"
 
