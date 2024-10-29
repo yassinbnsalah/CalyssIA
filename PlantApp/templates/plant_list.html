@@ -33,8 +33,11 @@
 <body>
   <div id="db-wrapper">
     <!-- Sidebar -->
+    {% if request.user.role == 'FARMER' %}
     {% include 'sidebarfarmer.html' %}
-
+{% elif request.user.role == 'DOCTOR' %}
+    {% include 'sidebar.html' %}
+{% endif %}
     <!-- Page Content -->
     <div id="page-content">
       <div class="header">
@@ -143,6 +146,12 @@
 
                               <a href="{% url 'PlantApp:plant-delete' plant.id %}"
                                 class="btn btn-danger btn-sm">Delete</a>
+                                
+                              {% if request.user.role == 'DOCTOR' %}
+                              <a href="{% url 'prevention-create' plant.id %}"
+                              class="btn btn-info btn-sm">Prevent</a>
+                              {% endif %}
+                                                        
                             </td>
 
                           </tr>

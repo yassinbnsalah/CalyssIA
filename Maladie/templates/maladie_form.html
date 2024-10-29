@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
- 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,12 +48,12 @@
                         <label for="id_nom" class="form-label">Nom de la maladie</label>
                         {{ form.nom }} <!-- Utilisation du champ nom du formulaire -->
                     </div>
-<!-- Maladie Type -->
-<div class="form-group mb-3">
-    <label for="id_nom" class="form-label">type de la maladie</label>
-    {{ form.types }}
-    <small class="form-text text-muted">Enter the type of the disease.</small>
-</div>
+                    <!-- Maladie Type -->
+                    <div class="form-group mb-3">
+                        <label for="id_nom" class="form-label">type de la maladie</label>
+                        {{ form.types }}
+                        <small class="form-text text-muted">Enter the type of the disease.</small>
+                    </div>
                     <!-- Description -->
                     <div class="form-group mb-3">
                         <label for="id_description" class="form-label">Description de la maladie</label>
@@ -61,7 +61,7 @@
                     </div>
 
 
-                    
+
 
                     <!-- Causes -->
                     <div class="form-group mb-3">

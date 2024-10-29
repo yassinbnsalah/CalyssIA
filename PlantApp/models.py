@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 
 from DemandeTraitement.models import DemandeTraitement
+from PreventionApp.models import Prevention  
 
 class Plant(models.Model):
     name = models.CharField(max_length=100)
@@ -9,6 +10,7 @@ class Plant(models.Model):
     description = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='plants/', blank=True, null=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='plants' , null = True)
+    preventions = models.ManyToManyField(Prevention, related_name="plants", verbose_name="Preventions")
 
     def __str__(self):
         return self.name

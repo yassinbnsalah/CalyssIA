@@ -57,10 +57,10 @@
                     <div class="form-group mb-3">
                         <label for="id_name" class="form-label">Treatment Name:</label>
                         {{ form.name }}
+                        <button type="button" class="btn btn-secondary" onclick="generateDescription()">Generate Description</button>
                         <small class="form-text text-muted">Please provide a descriptive name for the treatment.</small>
                     </div>
-
-                    <!-- Treatment Description -->
+                    
                     <div class="form-group mb-3">
                         <label for="id_description" class="form-label">Treatment Description:</label>
                         {{ form.description }}
@@ -101,12 +101,13 @@
                                     <label class="form-check-label" for="select-all">Select All</label>
                                 </div>
                                 {% for methode in form.methodes_traitement %}
-                                    <div class="form-check mb-2">
-                                        <input class="form-check-input" type="checkbox" value="{{ methode.choice_value }}" id="methode{{ forloop.counter }}" name="methodes_traitement" onclick="updateButtonText()" />
-                                        <label class="form-check-label" for="methode{{ forloop.counter }}">
-                                            {{ methode.choice_label }}
-                                        </label>
-                                    </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" value="{{ methode.choice_value }}" id="methode{{ forloop.counter }}" name="methodes_traitement[]" onclick="updateButtonText()" />
+                                    <label class="form-check-label" for="methode{{ forloop.counter }}">
+                                        {{ methode.choice_label }}
+                                    </label>
+                                </div>
+                                
                                 {% endfor %}
                             </div>
                         </div>
@@ -127,7 +128,30 @@
 
     <!-- Theme JS -->
     <script src={% static 'assets/js/theme.min.js' %}></script>
+<script>
+    function generateDescription() {
+        // Get the treatment name value from the form field
+        const maladieName = document.getElementById('id_name').value;
 
+        // Make an AJAX POST request to fetch the generated description
+        $.ajax({
+            url: "{% url 'generate_treatment_description' %}", // Ensure this URL is correct
+            type: "POST",
+            data: JSON.stringify({ maladie_name: maladieName }),
+            contentType: "application/json",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}" // Include CSRF token for security
+            },
+            success: function(response) {
+                // Populate the description field with the generated text
+                document.getElementById('id_description').value = response.description;
+            },
+            error: function(error) {
+                console.error("Error generating description:", error);
+            }
+        });
+    }
+</script>
     <script>
         function toggleAll(selectAllCheckbox) {
             const checkboxes = document.querySelectorAll('.form-check-input[type="checkbox"]');

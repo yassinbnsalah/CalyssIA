@@ -13,7 +13,7 @@ class MaladieForm(forms.ModelForm):
 
     class Meta:
         model = Maladie
-        fields = ['nom', 'description', 'image', 'causes', 'symptomes', 'types', 'traitements']  # Add 'traitements' here
+        fields = ['nom', 'description', 'image', 'causes', 'symptomes', 'types', 'traitements']  
         
         widgets = {
             'nom': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nom de la maladie'}),
