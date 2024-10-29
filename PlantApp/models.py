@@ -1,10 +1,7 @@
 from django.db import models
 from django.conf import settings
-
-<<<<<<< HEAD
-=======
 from DemandeTraitement.models import DemandeTraitement
->>>>>>> origin/Fedi
+
 
 class Plant(models.Model):
     name = models.CharField(max_length=100)
