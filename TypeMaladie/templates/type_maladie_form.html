@@ -23,7 +23,7 @@
 
     <!-- Theme CSS -->
     <link rel="stylesheet" href="{% static 'assets/css/theme.min.css' %}">
-    <title>Application de Type Maladie</title>
+    <title>Type Disease Application</title>
 </head>
 
 <body>
@@ -31,7 +31,7 @@
         <!-- Card -->
         <div class="card mb-3">
             <div class="card-header border-bottom px-4 py-3">
-                <h4 class="mb-0">Formulaire d'Application de Type Maladie</h4>
+                <h4 class="mb-0">Type Disease Application Form</h4>
             </div>
 
             <!-- Card body -->
@@ -40,29 +40,35 @@
                     {% csrf_token %}
                     <!-- Image -->
                     <div class="form-group mb-3">
-                        <label for="id_image" class="form-label">Image de la maladie</label>
-                        {{ form.image }} <!-- Utilisation du champ image du formulaire -->
+                        <label for="id_image" class="form-label">Disease Image</label>
+                        {{ form.image }} <!-- Using the image field from the form -->
                     </div>
-                    <!-- Nom de la maladie -->
+                    <!-- Disease Name -->
                     <div class="form-group mb-3">
-                        <label for="id_nom" class="form-label">Nom de la Type maladie</label>
-                        {{ form.nom }} <!-- Utilisation du champ nom du formulaire -->
+                        <label for="id_nom" class="form-label">Type Disease Name</label>
+                        {{ form.nom }} <!-- Using the name field from the form -->
                     </div>
 
                     <!-- Description -->
                     <div class="form-group mb-3">
-                        <label for="id_description" class="form-label">Description de la Type maladie</label>
-                        {{ form.description }} <!-- Utilisation du champ description du formulaire -->
+                        <label for="id_description" class="form-label">Type Disease Description</label>
+                        {{ form.description }} <!-- Using the description field from the form -->
                     </div>
-
-
 
                     <!-- Causes -->
                     <div class="form-group mb-3">
-                        <label for="id_causes" class="form-label">is_contagious</label>
-                        {{ form.is_contagious }} <!-- Utilisation du champ causes du formulaire -->
+                        <label for="id_causes" class="form-label">Is Contagious</label>
+                        <div class="form-check">
+                            {{ form.is_contagious }}
+                            <label class="form-check-label" for="id_is_contagious">
+                                This disease is contagious
+                            </label>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Soumettre l'Application</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <a href="{% url 'type_maladie_list' %}" class="btn btn-dark">
+                        Back
+                    </a>
                 </form>
             </div>
         </div>

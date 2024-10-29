@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from UserApp.models import RUser  
 
 class TypeMaladie(models.Model):
     nom = models.CharField(max_length=200, unique=True, verbose_name="Nom de la type de maladie")
@@ -7,7 +8,8 @@ class TypeMaladie(models.Model):
     image = models.ImageField(upload_to='typemaladies/', verbose_name="Image de la type de maladie", null=True, blank=True)
     is_contagious = models.BooleanField(default=True) 
     date_publication = models.DateTimeField(auto_now_add=True, verbose_name="Date de publication")
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='typemaladies', null=True)
+    owner = models.ForeignKey(RUser, on_delete=models.CASCADE, related_name='typemaladies', null=True)
+
 
     class Meta:
         verbose_name = "TypeMaladie"

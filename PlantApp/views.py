@@ -26,7 +26,7 @@ def create_plant(request):
         form = PlantForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('plant_list') 
+            return redirect('PlantApp:plant_list') 
     else:
         form = PlantForm()
     
@@ -88,7 +88,7 @@ class PlantCreateView(CreateView):
     model = Plant
     fields = ['name', 'scientific_name', 'description', 'image']
     template_name = 'plant_form.html'
-    success_url = reverse_lazy('plant_list')    
+    success_url = reverse_lazy('PlantApp:plant_list')    
     def form_valid(self, form):
         form.instance.owner = self.request.user  
         return super().form_valid(form) 
@@ -98,7 +98,7 @@ class PlantUpdateView(UpdateView):
     model = Plant
     fields = ['name', 'scientific_name', 'description', 'image']
     template_name = 'plant_form.html'
-    success_url = reverse_lazy('plant_list')
+    success_url = reverse_lazy('PlantApp:plant_list')
     def get_queryset(self):
         return Plant.objects.filter(id=self.kwargs['pk'])
 
@@ -107,7 +107,7 @@ class PlantUpdateView(UpdateView):
 class PlantDeleteView(DeleteView):
     model = Plant
     template_name = 'plant_confirm_delete.html'
-    success_url = reverse_lazy('plant_list')
+    success_url = reverse_lazy('PlantApp:plant_list')
 
     def get_queryset(self):
         return Plant.objects.filter(owner=self.request.user)

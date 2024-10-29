@@ -23,6 +23,7 @@ def create_type_maladie(request):
     if request.method == 'POST':
         form = TypeMaladieForm(request.POST, request.FILES)
         if form.is_valid():
+            form.instance.owner = request.user  
             form.save()
             return redirect('type_maladie_list') 
     else:

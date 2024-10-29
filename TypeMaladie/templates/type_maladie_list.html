@@ -85,6 +85,9 @@
                                                 <tbody>
                                                     {% for typemaladie in typemaladies %}
                                                     <tr>
+                                                        {% if request.user == typemaladie.owner %}
+                            
+                                               
                                                         <td class="border-top-0">
                                                             <div class="d-lg-flex align-items-center">
                                                                 <div>
@@ -107,6 +110,7 @@
                                                             <a href="{% url 'type_maladie_update' typemaladie.id %}" class="btn btn-outline-info btn-sm">Update</a>
                                                             <a href="{% url 'delete_type_maladie' typemaladie.id %}" class="btn btn-danger btn-sm">Delete</a>
                                                         </td>
+                                                        {% endif %}
                                                     </tr>
                                                     {% empty %}
                                                     <tr>

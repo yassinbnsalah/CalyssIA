@@ -10,7 +10,7 @@ from .forms import DemandeTraitementForm, RendezVousForm
 
 from django.urls import reverse_lazy
 
-
+from DemandeTraitement.calenderFCT import main
 
 def createDemande(request, pk):
     disease = get_object_or_404(DiseaseDetection, id=pk)
@@ -19,6 +19,7 @@ def createDemande(request, pk):
         if form.is_valid():
             demande = form.save(commit=False)
             demande.status = "en_attente"
+            
             demande.title_desease = disease.plant.name  +" is problem in "+ disease.detected_disease
             demande.save()
             disease.demande = demande 
@@ -57,29 +58,59 @@ def DemandeTraitementDeleteView(request, pk):
         return redirect('demande_list')  # Rediriger vers la liste après suppression
     return render(request, 'demande_traitement/confirm_delete.html', {'demande': demande})
 
+from datetime import datetime, timedelta
 
 def create_rendezvous(request, demande_id):
-    # Get the DemandeTraitement instance or simulate details if needed
+    # Get the associated DemandeTraitement object
     demande = get_object_or_404(DemandeTraitement, pk=demande_id)
     
     if request.method == 'POST':
         form = RendezVousForm(request.POST)
         if form.is_valid():
+            # Create a RendezVous instance but do not save it yet
             rendezvous = form.save(commit=False)
-            rendezvous.demande = demande  # Associate the rendezvous with the demande
-            demande.status = "approuve"
-            demande.save()
-            rendezvous.save()
-            return redirect('demande_list')  # Redirect after successful creation
-    else:
-        form = RendezVousForm()
+            date_str =str(rendezvous.date)
+            date_object = datetime.fromisoformat(date_str)
 
-    # Pass demande details to the context
+            # Convert to the required format for Google Calendar API (ISO 8601)
+            formatted_date = date_object.isoformat()
+            try:
+                link = main(
+                    "yacinbnsalh@gmail.com",  # Doctor's email
+                    "wiem.benaraar@esprit.tn",  # Farmer's email
+                    formatted_date ,  # Ensure the date is in the correct format (string)
+                    demande.title_desease  # Title for the event
+                )
+                rendezvous.rdv_link = link  # Save the Google Calendar link in the rendezvous instance
+                rendezvous.save()  # Save the rendezvous instance to the database
+                
+                # Update the demande status and save it
+                demande.rendezv = rendezvous
+                demande.status = "approuve"
+                demande.save()
+                
+                return redirect('demande_list')  # Redirect after successful creation
+
+            except Exception as e:
+                # Handle any exceptions, such as issues with the Google Calendar API
+                print(f"An error occurred while creating the event: {e}")
+                # You may want to add an error message to the context for user feedback
+                context = {
+                    'form': form,
+                    'demande': demande,
+                    'error': "An error occurred while creating the rendezvous. Please try again."
+                }
+                return render(request, 'demande_traitement/create_rendezvous.html', context)
+    
+    else:
+        form = RendezVousForm()  # Create a new form instance if not a POST request
+
+    # Prepare the context for rendering the template
     context = {
         'form': form,
         'demande': {
             'id': demande.id,
-            'objet': "Objet fictif de la demande"  # Replace with actual details if available
+            'objet': demande.title_desease  # Replace with actual details if available
         }
     }
 
