@@ -40,52 +40,13 @@
 <body>
     <div id="db-wrapper">
         <!-- Sidebar and navigation -->
-        <nav class="navbar-vertical navbar">
-            <div class="nav-scroller">
-                <a class="navbar-brand" href="{% url 'home' %}"><img
-                        src="{% static 'assets/images/brand/logo/logo-inverse.svg' %}" alt="" /></a>
-                <ul class="navbar-nav flex-column" id="sideNavbar">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">
-                            <i class="nav-icon fe fe-home mr-2"></i>Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navCourses"
-                            aria-expanded="true" aria-controls="navCourses">
-                            <i class="nav-icon fe fe-book mr-2"></i>Plants
-                        </a>
-                        <div id="navCourses" class="collapse show" data-parent="#sideNavbar">
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="/plants/">All Plants
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navMaladies"
-                            aria-expanded="true" aria-controls="navMaladies">
-                            <i class="nav-icon fe fe-book mr-2"></i>Maladies
-                        </a>
-                        <div id="navMaladies" class="collapse show" data-parent="#sideNavbar">
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="{% url 'maladie_list' %}">All Maladies</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        {% include 'sidebarfarmer.html' %}
+
 
         <!-- Page content -->
         <div id="page-content">
             <div class="header">
-                <nav class="navbar-default navbar navbar-expand-lg">
-                    <a id="nav-toggle" href="#!"><i class="fe fe-menu"></i></a>
-                </nav>
+                {% include 'navbar.html' %}
             </div>
 
             <div class="container-fluid p-4">
@@ -131,8 +92,8 @@
                                              data-toggle="modal" data-target="#maladieModal{{ maladie.id }}" />
                                         {% endif %}
                                         <div class="card-body">
-                                            <h5 class="card-title text-primary">{{ maladie.nom }}</h5>
-                                            <p class="card-text">{{ maladie.description }}</p>
+                                            <h5 class="card-title text-primary text-uppercase">Name : {{ maladie.nom }}</h5>
+                                         
                                         </div>
                                     </div>
                                 </div>

@@ -101,12 +101,13 @@
                                     <label class="form-check-label" for="select-all">Select All</label>
                                 </div>
                                 {% for methode in form.methodes_traitement %}
-                                    <div class="form-check mb-2">
-                                        <input class="form-check-input" type="checkbox" value="{{ methode.choice_value }}" id="methode{{ forloop.counter }}" name="methodes_traitement" onclick="updateButtonText()" />
-                                        <label class="form-check-label" for="methode{{ forloop.counter }}">
-                                            {{ methode.choice_label }}
-                                        </label>
-                                    </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" value="{{ methode.choice_value }}" id="methode{{ forloop.counter }}" name="methodes_traitement[]" onclick="updateButtonText()" />
+                                    <label class="form-check-label" for="methode{{ forloop.counter }}">
+                                        {{ methode.choice_label }}
+                                    </label>
+                                </div>
+                                
                                 {% endfor %}
                             </div>
                         </div>
