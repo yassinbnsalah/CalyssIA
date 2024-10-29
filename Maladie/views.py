@@ -68,7 +68,7 @@ def create_maladie(request):
         if form.is_valid():
             form.instance.add_by = request.user  
             form.save()
-            return redirect('maladie_list') 
+            return redirect('maladie_list')  
     else:
         form = MaladieForm()
     
@@ -109,7 +109,7 @@ def delete_maladie(request, pk):
  
 class MaladieUpdateView(UpdateView):
     model = Maladie
-    fields = ['nom', 'description', 'image', 'causes', 'symptomes']
+    form_class = MaladieForm
     template_name = 'maladie_form.html'
     success_url = reverse_lazy('maladie_list')
     def get_queryset(self):

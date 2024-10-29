@@ -10,4 +10,4 @@ urlpatterns = [
     path('maladies/create/', create_maladie, name='maladie-create'),
     path('maladies/<int:pk>/update/', MaladieUpdateView.as_view(), name='maladie-update'),
     path('maladies/<int:pk>/delete/', delete_maladie, name='delete_maladie'),
-] 
+]  

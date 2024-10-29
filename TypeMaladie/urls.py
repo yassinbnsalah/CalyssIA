@@ -10,3 +10,4 @@ urlpatterns = [
     path('typemaladies/<int:pk>/update/', TypeMaladieUpdateView.as_view(), name='type_maladie_update'),
     path('typemaladies/<int:pk>/delete/', delete_type_maladie, name='delete_type_maladie'),  # Nom cohérent
 ]
+ 
