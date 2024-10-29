@@ -39,10 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'PlantApp',
     'Maladie',
+    'TypeMaladie',
     'UserApp',
     'TraitementApp',
     'PreventionApp',
-    'DemandeTraitement'
+    'DemandeTraitement',
+    'MethodeTraitementApp',
+    'FeedbacksApp',
 ]
 
 MIDDLEWARE = [
@@ -83,7 +86,7 @@ AUTH_USER_MODEL = "UserApp.RUser"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'CalyssBase',
     }
 }
 

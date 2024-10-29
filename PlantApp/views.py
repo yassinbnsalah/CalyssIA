@@ -4,33 +4,36 @@ from .models import DiseaseDetection, Plant
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from .forms import ImageUploadForm, PlantForm
+from django.contrib.auth.decorators import login_required
+from UserApp.decorators import role_required
 def home(request):
     return render(request, 'home.html')
 
-
+@login_required 
 def plant_list(request):
     plants = Plant.objects.all()  
     return render(request, 'plant_list.html', {'plants': plants})
-
+@login_required 
 def plant_details(request, pk = None):
     plant = Plant.objects.get(id = pk)  
+    
     dis = DiseaseDetection.objects.filter(plant = plant).order_by('-date_detected')
     return render(request, 'plant_details.html', {'plant': plant ,'dis' : dis})
 
-
+@login_required 
 def create_plant(request):
     if request.method == 'POST':
         form = PlantForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('plant_list') 
+            return redirect('PlantApp:plant_list') 
     else:
         form = PlantForm()
     
     return render(request, 'create_plant.html', {'form': form})
 
 
-
+@login_required 
 def predict(request, pk=None):
     if request.method == 'POST':
         form = ImageUploadForm(request.POST, request.FILES)
@@ -85,17 +88,17 @@ class PlantCreateView(CreateView):
     model = Plant
     fields = ['name', 'scientific_name', 'description', 'image']
     template_name = 'plant_form.html'
-    success_url = reverse_lazy('plant_list')    
+    success_url = reverse_lazy('PlantApp:plant_list')    
     def form_valid(self, form):
         form.instance.owner = self.request.user  
-        return super().form_valid(form)
+        return super().form_valid(form) 
 
 
 class PlantUpdateView(UpdateView):
     model = Plant
     fields = ['name', 'scientific_name', 'description', 'image']
     template_name = 'plant_form.html'
-    success_url = reverse_lazy('plant_list')
+    success_url = reverse_lazy('PlantApp:plant_list')
     def get_queryset(self):
         return Plant.objects.filter(id=self.kwargs['pk'])
 
@@ -104,7 +107,7 @@ class PlantUpdateView(UpdateView):
 class PlantDeleteView(DeleteView):
     model = Plant
     template_name = 'plant_confirm_delete.html'
-    success_url = reverse_lazy('plant_list')
+    success_url = reverse_lazy('PlantApp:plant_list')
 
     def get_queryset(self):
         return Plant.objects.filter(owner=self.request.user)

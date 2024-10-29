@@ -3,10 +3,32 @@ from django.views.generic import ListView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
+
+from PlantApp.models import DiseaseDetection
 from .models import DemandeTraitement, RendezVous
 from .forms import DemandeTraitementForm, RendezVousForm
 
 from django.urls import reverse_lazy
+
+from DemandeTraitement.calenderFCT import main
+
+def createDemande(request, pk):
+    disease = get_object_or_404(DiseaseDetection, id=pk)
+    if request.method == 'POST':
+        form = DemandeTraitementForm(request.POST)
+        if form.is_valid():
+            demande = form.save(commit=False)
+            demande.status = "en_attente"
+            
+            demande.title_desease = disease.plant.name  +" is problem in "+ disease.detected_disease
+            demande.save()
+            disease.demande = demande 
+            disease.save()
+            return redirect('PlantApp:details_plant', pk=disease.plant.id)
+    else:
+        form = DemandeTraitementForm()
+    return render(request, 'demande_traitement/create.html', {'form': form, 'disease': disease})
+
 class DemandeTraitementCreateView(CreateView):
     model = DemandeTraitement
     form_class = DemandeTraitementForm
@@ -15,8 +37,8 @@ class DemandeTraitementCreateView(CreateView):
 
 class DemandeTraitementListView(ListView):
     model = DemandeTraitement
-    template_name = 'demande_traitement/list.html'  # Modifie en fonction de ton template
-    context_object_name = 'demandes'  # Le nom de la variable de contexte pour la template
+    template_name = 'demande_traitement/list.html' 
+    context_object_name = 'demandes' 
 def DemandeTraitementUpdateView(request, pk):
     demande = get_object_or_404(DemandeTraitement, pk=pk)
     if request.method == 'POST':
@@ -36,7 +58,63 @@ def DemandeTraitementDeleteView(request, pk):
         return redirect('demande_list')  # Rediriger vers la liste après suppression
     return render(request, 'demande_traitement/confirm_delete.html', {'demande': demande})
 
+from datetime import datetime, timedelta
 
+def create_rendezvous(request, demande_id):
+    # Get the associated DemandeTraitement object
+    demande = get_object_or_404(DemandeTraitement, pk=demande_id)
+    form_class = DemandeTraitementForm
+    if request.method == 'POST':
+        form = RendezVousForm(request.POST)
+        if form.is_valid():
+            # Create a RendezVous instance but do not save it yet
+            rendezvous = form.save(commit=False)
+            date_str =str(rendezvous.date)
+            date_object = datetime.fromisoformat(date_str)
+
+            # Convert to the required format for Google Calendar API (ISO 8601)
+            formatted_date = date_object.isoformat()
+            try:
+                link = main(
+                    "yacinbnsalh@gmail.com",  # Doctor's email
+                    "wiem.benaraar@esprit.tn",  # Farmer's email
+                    formatted_date ,  # Ensure the date is in the correct format (string)
+                    demande.title_desease  # Title for the event
+                )
+                rendezvous.rdv_link = link  # Save the Google Calendar link in the rendezvous instance
+                rendezvous.save()  # Save the rendezvous instance to the database
+                
+                # Update the demande status and save it
+                demande.rendezv = rendezvous
+                demande.status = "approuve"
+                demande.save()
+                
+                return redirect('demande_list')  # Redirect after successful creation
+
+            except Exception as e:
+                # Handle any exceptions, such as issues with the Google Calendar API
+                print(f"An error occurred while creating the event: {e}")
+                # You may want to add an error message to the context for user feedback
+                context = {
+                    'form': form,
+                    'demande': demande,
+                    'error': "An error occurred while creating the rendezvous. Please try again."
+                }
+                return render(request, 'demande_traitement/create_rendezvous.html', context)
+    
+    else:
+        form = RendezVousForm()  # Create a new form instance if not a POST request
+
+    # Prepare the context for rendering the template
+    context = {
+        'form': form,
+        'demande': {
+            'id': demande.id,
+            'objet': demande.title_desease  # Replace with actual details if available
+        }
+    }
+
+    return render(request, 'demande_traitement/create_rendezvous.html', context)
 class RendezVousCreateView(CreateView):
     model = RendezVous
     form_class = RendezVousForm

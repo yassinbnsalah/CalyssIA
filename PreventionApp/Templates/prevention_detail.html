@@ -4,32 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'assets/libs/bootstrap/dist/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/theme.min.css' %}">
+<!-- Favicon icon-->
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/favicon/favicon.ico' %}">
+
+
+<!-- Libs CSS -->
+<link href="{% static 'assets/fonts/feather/feather.css' %}" rel="stylesheet" />
+<link href="{% static 'assets/libs/dragula/dist/dragula.min.css' %}" rel="stylesheet" />
+<link href="{% static 'assets/libs/@mdi/font/css/materialdesignicons.min.css' %}" rel="stylesheet" />
+<link href="{% static 'assets/libs/prismjs/themes/prism.css' %}" rel="stylesheet" />
+<link href="{% static 'assets/libs/dropzone/dist/dropzone.css' %}" rel="stylesheet" />
+<link href="{% static 'assets/libs/magnific-popup/dist/magnific-popup.css' %}" rel="stylesheet" />
+<link href="{% static 'assets/libs/bootstrap-select/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
+<link href="{% static 'assets/libs/@yaireo/tagify/dist/tagify.css' %}" rel="stylesheet">
+<link href="{% static 'assets/libs/tiny-slider/dist/tiny-slider.css' %}" rel="stylesheet">
+<link href="{% static 'assets/libs/tippy.js/dist/tippy.css' %}" rel="stylesheet">
+
+
+<!-- Theme CSS -->
+<link rel="stylesheet" href="{% static 'assets/css/theme.min.css' %}">
     <title>Prevention Details</title>
 </head>
 <body>
     <div id="db-wrapper">
         <!-- Sidebar -->
-        <nav class="navbar-vertical navbar">
-            <div class="nav-scroller">
-                <a class="navbar-brand" href="/preventions/">
-                    <img src="{% static 'assets/images/brand/logo/logo-inverse.svg' %}" alt="Logo" />
-                </a>
-                <ul class="navbar-nav flex-column" id="sideNavbar">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/preventions/">All Preventions</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        {% include 'sidebar.html' %}
 
         <!-- Page Content -->
         <div id="page-content">
             <div class="header">
-                <nav class="navbar-default navbar navbar-expand-lg">
-                    <a id="nav-toggle" href="#!"><i class="fe fe-menu"></i></a>
-                </nav>
+                {% include 'navbar.html' %}
             </div>
 
             <div class="container-fluid p-4">
@@ -48,12 +52,30 @@
                                 <h5 class="card-title">Prevention Details</h5>
                                 <p><strong>Description:</strong> {{ prevention.description }}</p>
                                 <p><strong>Date Initiated:</strong> {{ prevention.date_created }}</p>
+                                <p><strong>Field Prevention:</strong> {{ prevention.field_prevention }}</p> <!-- Add this line -->
+                                <p><strong>Date:</strong> {{ prevention.date }}</p> <!-- Add this line -->
 
                                 <div class="mt-4">
                                     <a href="{% url 'prevention_update' prevention.pk %}" class="btn btn-info">Update Prevention</a>
                                     <a href="{% url 'prevention_delete' prevention.pk %}" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ prevention.pk }}">Delete Prevention</a>
                                     <a href="{% url 'prevention_list' %}" class="btn btn-secondary">Back to Preventions</a>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feedback Section -->
+                <div class="row mt-4">
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="card rounded-lg">
+                            <div class="card-body">
+                                <h5 class="card-title">Feedback</h5>
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}  <!-- Render the feedback form -->
+                                    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                                </form>
                             </div>
                         </div>
                     </div>

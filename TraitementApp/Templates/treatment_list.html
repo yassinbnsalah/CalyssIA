@@ -30,95 +30,12 @@
 <body>
     <div id="db-wrapper">
         <!-- Sidebar -->
-        <nav class="navbar-vertical navbar">
-            <div class="nav-scroller">
-              <!-- Brand logo -->
-              <a class="navbar-brand" href="{% url 'home' %}"><img
-                src="{% static 'assets/images/brand/logo/logo-inverse.svg' %}" alt="" /></a>
-              <ul class="navbar-nav flex-column" id="sideNavbar">
-                <li class="nav-item">
-                  <a class="nav-link" href="admin-dashboard.html">
-                    <i class="nav-icon fe fe-home mr-2"></i>Dashboard
-                  </a>
-                </li> 
-                <!-- Nav item -->
-                <li class="nav-item">
-                  <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navCourses" aria-expanded="true"
-                    aria-controls="navCourses">
-                    <i class="nav-icon fe fe-book mr-2"></i>Plants
-                  </a>
-                  <div id="navCourses" class="collapse show" data-parent="#sideNavbar">
-                    <ul class="nav flex-column">
-                      <li class="nav-item">
-                        <a class="nav-link active" href="/plants/">All Plants
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navMaladies" aria-expanded="true"
-                    aria-controls="navMaladies">
-                    <i class="nav-icon fe fe-book mr-2"></i>Maladies
-                  </a>
-                  <div id="navMaladies" class="collapse show" data-parent="#sideNavbar">
-                    <ul class="nav flex-column">
-                      <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'maladie_list' %}">All Maladies</a>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navDemandes" aria-expanded="true"
-                    aria-controls="navDemandes">
-                    <i class="nav-icon fe fe-book mr-2"></i>Demandes de traitement
-                  </a>
-                  <div id="navDemandes" class="collapse show" data-parent="#sideNavbar">
-                    <ul class="nav flex-column">
-                      <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'demande_list' %}">All Demandes</a>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navTraitements" aria-expanded="true"
-                      aria-controls="navTraitements">
-                      <i class="nav-icon fe fe-book mr-2"></i>Traitements
-                    </a>
-                    <div id="navTraitements" class="collapse show" data-parent="#sideNavbar">
-                      <ul class="nav flex-column">
-                        <li class="nav-item">
-                          <a class="nav-link active" href="{% url 'treatment_list' %}">All Traitements</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link active" href="#!" data-toggle="collapse" data-target="#navPreventions" aria-expanded="true"
-                      aria-controls="navPreventions">
-                      <i class="nav-icon fe fe-book mr-2"></i>Preventions
-                    </a>
-                    <div id="navPreventions" class="collapse show" data-parent="#sideNavbar">
-                      <ul class="nav flex-column">
-                        <li class="nav-item">
-                          <a class="nav-link active" href="{% url 'prevention_list' %}">All Preventions</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
-              </ul>
-      
-            </div>
-          </nav>
+        {% include 'sidebar.html' %}
 
         <!-- Page Content -->
         <div id="page-content">
             <div class="header">
-                <nav class="navbar-default navbar navbar-expand-lg">
-                    <a id="nav-toggle" href="#!"><i class="fe fe-menu"></i></a>
-                </nav>
+                {% include 'navbar.html' %}
             </div>
 
             <div class="container-fluid p-4">
@@ -127,9 +44,6 @@
                         <div class="border-bottom pb-4 mb-4 d-lg-flex align-items-center justify-content-between">
                             <div class="mb-2 mb-lg-0">
                                 <h1 class="mb-1 h2 font-weight-bold">Treatments</h1>
-                            </div>
-                            <div>
-                                <a href="/treatments/create/" class="btn btn-primary">Add New Treatment</a>
                             </div>
                         </div>
                     </div>
@@ -152,7 +66,6 @@
                                             <tr>
                                                 <th scope="col" class="border-0 text-uppercase">Treatment Name</th>
                                                 <th scope="col" class="border-0 text-uppercase">Description</th>
-                                                <th scope="col" class="border-0 text-uppercase">Date Applied</th>
                                                 <th scope="col" class="border-0 text-uppercase">Success Rate (%)</th>
                                                 <th scope="col" class="border-0 text-uppercase">Action</th>
                                             </tr>
@@ -160,10 +73,20 @@
                                         <tbody>
                                             {% for treatment in treatments %}
                                             <tr>
-                                                <td class="border-top-0">{{ treatment.name }}</td>
-                                                <td class="align-middle border-top-0">{{ treatment.description }}</td>
-                                                <td class="align-middle border-top-0">{{ treatment.date_applied }}</td>
-                                                <td class="align-middle border-top-0">{{ treatment.success_rate }}</td>
+                                                <td class="border-top-0">
+                                                    {{ treatment.name }}
+                                                    <br>
+                                                    <span class="text-muted small">Published on {{ treatment.date_applied|date:"d M, Y" }}</span>
+                                                </td>
+                                                <td class="align-middle border-top-0">
+                                                    <span class="description-preview" title="{{ treatment.description }}">
+                                                        {{ treatment.description|truncatewords:10 }}
+                                                    </span>
+                                                    {% if treatment.description|length > 50 %}
+                                                        <a href="{% url 'treatment-detail' treatment.id %}" class="small">Read more</a>
+                                                    {% endif %}
+                                                </td>
+                                                <td class="align-middle border-top-0">{{ treatment.success_rate }}%</td>
                                                 <td class="align-middle border-top-0">
                                                     <a href="{% url 'treatment-detail' treatment.id %}" class="btn btn-outline-secondary btn-sm">Details</a>
                                                     <a href="{% url 'treatment-update' treatment.id %}" class="btn btn-outline-info btn-sm">Update</a>
@@ -172,37 +95,31 @@
                                                     </a>
                                                 </td>
                                             </tr>
-
-                                            <!-- Delete Confirmation Modal -->
-                                            <div class="modal fade" id="deleteModal{{ treatment.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ treatment.id }}" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="deleteModalLabel{{ treatment.id }}">Confirm Delete</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            Are you sure you want to delete "{{ treatment.name }}"?
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <form method="POST" action="{% url 'treatment-delete' treatment.id %}">
-                                                                {% csrf_token %}
-                                                                <button type="submit" class="btn btn-danger">Confirm Delete</button>
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                             {% empty %}
                                             <tr>
                                                 <td colspan="5" class="text-center">No treatments available.</td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>
+                                        
                                     </table>
+                                </div>
+                                <div class="card-footer">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-center mb-0">
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                            </li>
+                                            <li class="page-item active" aria-current="page">
+                                                <a class="page-link" href="#">1</a>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">Next</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
                                 </div>
                             </div>
                         </div>

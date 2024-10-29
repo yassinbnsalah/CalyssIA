@@ -16,6 +16,28 @@
     <!-- Theme CSS -->
     <link rel="stylesheet" href={% static 'assets/css/theme.min.css' %}>
     <title>Create Treatment</title>
+    <style>
+        .dropdown-menu {
+            max-height: 200px; /* Set a max height for the dropdown */
+            overflow-y: auto; /* Enable scrolling */
+            background-color: #f8f9fa; /* Light background */
+            border-radius: 0.5rem; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        .form-check {
+            margin-bottom: 0.5rem; /* Space between checkboxes */
+        }
+
+        .form-check-input:checked {
+            background-color: #0d6efd; /* Change checkmark color */
+            border-color: #0d6efd; /* Change border color */
+        }
+
+        .btn-dropdown {
+            width: 100%; /* Make button full width */
+        }
+    </style>
 </head>
 
 <body>
@@ -35,23 +57,22 @@
                     <div class="form-group mb-3">
                         <label for="id_name" class="form-label">Treatment Name:</label>
                         {{ form.name }}
-                        <small class="form-text text-muted">Please provide a descriptive name for the treatment.</small>
+                       
                     </div>
-
-                    <!-- Treatment Description -->
+                    
                     <div class="form-group mb-3">
-                        <label for="id_description" class="form-label">Treatment Description:</label>
+                        <label for="id_description" class="form-label">Description:</label>
                         {{ form.description }}
-                        <small class="form-text text-muted">Provide a brief summary of the treatment.</small>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-info generate-btn mt-2" onclick="generateDescription()">
+                            Generate Description
+                        </button>
+                        <small class="form-text text-muted">Please provide a descriptive name for the treatment.</small>
+
                     </div>
 
-                    <!-- Date Applied -->
-                    <div class="form-group mb-3">
-                        <label for="id_date_applied" class="form-label">Date Applied:</label>
-                        {{ form.date_applied }}
-                        <small class="form-text text-muted">Enter the date the treatment was applied.</small>
-                    </div>
-
+               
                     <!-- Success Rate -->
                     <div class="form-group mb-3">
                         <label for="id_success_rate" class="form-label">Success Rate (%):</label>
@@ -66,6 +87,32 @@
                         <small class="form-text text-muted">Any additional notes about the treatment.</small>
                     </div>
 
+                    <!-- Methodes de Traitement -->
+                    <div class="form-group mb-3">
+                        <label for="id_methodes_traitement" class="form-label">Methodes de Traitement:</label>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle btn-dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Select Methodes
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" value="all" id="select-all" onclick="toggleAll(this)" />
+                                    <label class="form-check-label" for="select-all">Select All</label>
+                                </div>
+                                {% for methode in form.methodes_traitement %}
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" value="{{ methode.choice_value }}" id="methode{{ forloop.counter }}" name="methodes_traitement[]" onclick="updateButtonText()" />
+                                    <label class="form-check-label" for="methode{{ forloop.counter }}">
+                                        {{ methode.choice_label }}
+                                    </label>
+                                </div>
+                                
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <small class="form-text text-muted">Select one or more methods of treatment.</small>
+                    </div>
+                    
                     <!-- Submit Button -->
                     <button type="submit" class="btn btn-primary">Create Treatment</button>
                 </form>
@@ -80,6 +127,72 @@
 
     <!-- Theme JS -->
     <script src={% static 'assets/js/theme.min.js' %}></script>
-</body>
+    <script>
+        function generateDescription() {
+            // Get maladie name dynamically from the page
+            const maladieName = "{{ maladie_name }}";
+            
+            fetch("{% url 'generate_treatment_description' %}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                body: JSON.stringify({ maladie_name: maladieName })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.description) {
+                    // Set the generated description in the description field
+                    document.getElementById("id_description").value = data.description;
+                } else {
+                    alert("Failed to generate description. Try again.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+    
+    <script>
+        function toggleAll(selectAllCheckbox) {
+            const checkboxes = document.querySelectorAll('.form-check-input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                if (checkbox.id !== 'select-all') { 
+                    checkbox.checked = selectAllCheckbox.checked;
+                }
+            });
+            updateButtonText(); 
+        }
 
+        function updateButtonText() {
+            const checkboxes = document.querySelectorAll('.form-check-input[type="checkbox"]:not(#select-all)');
+            const selectedLabels = [];
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const label = checkbox.nextElementSibling.textContent.trim();
+                    selectedLabels.push(label);
+                }
+            });
+
+            const button = document.getElementById('dropdownMenuButton');
+            if (selectedLabels.length > 0) {
+                button.textContent = selectedLabels.join(', '); 
+            } else {
+                button.textContent = 'Select Methodes'; 
+            }
+        }
+
+        $(document).ready(function () {
+            $(document).click(function (e) {
+                if (!$(e.target).closest('.dropdown').length) {
+                    $('.dropdown-menu').hide();
+                }
+            });
+
+            $('#dropdownMenuButton').click(function () {
+                $('.dropdown-menu').toggle();
+            });
+        });
+    </script>
+</body>
 </html>
