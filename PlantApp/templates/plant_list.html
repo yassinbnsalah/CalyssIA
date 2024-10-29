@@ -147,7 +147,7 @@
                               <a href="{% url 'PlantApp:plant-delete' plant.id %}"
                                 class="btn btn-danger btn-sm">Delete</a>
 
-                              {% if request.user.role == 'FARMER' %}
+                              {% if request.user.role == 'DOCTOR' %}
                               <a href="{% url 'prevention-create' plant.id %}" class="btn btn-info btn-sm">Prevent</a>
                               {% endif %}
 

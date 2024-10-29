@@ -11,6 +11,22 @@
     <link href="{% static 'assets/fonts/feather/feather.css' %}" rel="stylesheet" />
     <link href="{% static 'assets/libs/bootstrap-select/dist/css/bootstrap-select.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'assets/css/theme.min.css' %}">
+    
+    <style>
+        .truncated {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 150px; /* Adjust width as needed */
+            display: inline-block;
+        }
+
+        .expanded {
+            white-space: normal; /* Allow normal text wrapping */
+            width: auto; /* Expand to fit content */
+        }
+    </style>
+
     <title>Maladie List</title>
 </head>
 
@@ -70,6 +86,7 @@
                                             <tbody>
                                                 {% for maladie in maladies %}
                                                 <tr>
+                                                    {% if request.user == maladie.add_by %}
                                                     <td class="border-top-0">
                                                         <div class="d-lg-flex align-items-center">
                                                             <div>
@@ -84,8 +101,7 @@
                                                                     data-target="#descriptionModal{{ maladie.id }}">
                                                                     <h4 class="mb-1">{{ maladie.nom }}</h4>
                                                                 </a>
-                                                                <span class="text-inherit">Published on 
-                                                                    {{ maladie.date_publication|date:"d F, Y" }}</span>
+                                                                <span class="text-inherit">Published on {{maladie.date_publication|date:"d F, Y" }}</span>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -98,16 +114,23 @@
                                                         No types available
                                                         {% endif %}
                                                     </td>
-                                                    <td class="align-middle border-top-0">{{ maladie.causes }}</td>
-                                                    <td class="align-middle border-top-0">{{ maladie.symptomes }}</td>
+                                                    <td class="align-middle border-top-0">
+                                                        <span class="truncated" id="causes-{{ maladie.id }}">{{ maladie.causes }}</span>
+                                                        <button onclick="toggleText('causes-{{ maladie.id }}')" class="btn btn-link">Show more</button>
+                                                    </td>
+                                                    <td class="align-middle border-top-0">
+                                                        <span class="truncated" id="symptoms-{{ maladie.id }}">{{ maladie.symptomes }}</span>
+                                                        <button onclick="toggleText('symptoms-{{ maladie.id }}')" class="btn btn-link">Show more</button>
+                                                    </td>
                                                     <td class="align-middle border-top-0">
                                                         <a href="{% url 'treatment-create' maladie.id %}"
-                                                            class="btn btn-success btn-sm">new Treatement</a>
+                                                            class="btn btn-success btn-sm">New Treatment</a>
                                                         <a href="{% url 'maladie-update' maladie.id %}"
                                                             class="btn btn-outline-info btn-sm">Update</a>
                                                         <a href="{% url 'delete_maladie' maladie.id %}"
                                                             class="btn btn-danger btn-sm">Delete</a>
                                                     </td>
+                                                    {% endif %}
                                                 </tr>
 
                                                 <!-- Modal -->
@@ -133,7 +156,7 @@
                                                                 <ul>
                                                                     {% for treatment in maladie.traitements.all %}
                                                                     <li>{{ treatment.name }}</li>
-                                                                    <pre> {{ treatment.description }}</pre>
+                                                                    <pre>{{ treatment.description }}</pre>
                                                                     {% endfor %}
                                                                 </ul>
                                                                 {% else %}
@@ -187,6 +210,14 @@
     <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
     <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'assets/js/theme.min.js' %}"></script>
+    
+    <script>
+        function toggleText(id) {
+            const element = document.getElementById(id);
+            element.classList.toggle('truncated');
+            element.classList.toggle('expanded'); // Allows the text to expand fully
+        }
+    </script>
 </body>
 
 </html>

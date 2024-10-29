@@ -14,12 +14,23 @@ from django.contrib.auth.decorators import login_required
 from UserApp.decorators import role_required
 from TypeMaladie.models import TypeMaladie
 # Set up the Google API key
-GOOGLE_API = os.getenv('GOOGLE_API_KEY')
+#GOOGLE_API = os.getenv('GOOGLE_API_KEY')
+GOOGLE_API ='AIzaSyB7TogoCl0XBkrUSwLvhxFbIvfuMrJ_giE'
 genai.configure(api_key=GOOGLE_API)
 
 def ai_generate_description(nom):
     model = genai.GenerativeModel('gemini-1.5-flash')
-    prompt = f"generate a detailed description in 4 lines for: {nom}"
+    prompt = f"generate a detailed description in 4 lines for this maladie: {nom}"
+    response = model.generate_content(prompt)
+    return response.text
+def ai_generate_causes(nom):
+    model = genai.GenerativeModel('gemini-1.5-flash')
+    prompt = f"generate a detailed causes in 1 lines for this maladie: {nom}"
+    response = model.generate_content(prompt)
+    return response.text
+def ai_generate_symptomes(nom):
+    model = genai.GenerativeModel('gemini-1.5-flash')
+    prompt = f"generate a detailed symptomes in 1 lines for this maladie: {nom}"
     response = model.generate_content(prompt)
     return response.text
 @csrf_exempt
@@ -28,7 +39,9 @@ def generate_description(request):
         data = json.loads(request.body)
         nom = data.get('nom', '')
         description = ai_generate_description(nom)
-        return JsonResponse({'description': description})
+        causes = ai_generate_causes(nom)
+        symptomes = ai_generate_symptomes(nom)
+        return JsonResponse({'description': description, 'causes': causes, 'symptomes': symptomes})
     
     return JsonResponse({'error': 'Invalid Request'}, status=400)
 
@@ -53,13 +66,28 @@ def create_maladie(request):
     if request.method == 'POST':
         form = MaladieForm(request.POST, request.FILES)
         if form.is_valid():
+            form.instance.add_by = request.user  
             form.save()
             return redirect('maladie_list') 
     else:
         form = MaladieForm()
     
     return render(request, 'create_maladie.html', {'form': form})
+@login_required 
+@role_required("DOCTOR")
+def update_maladie(request, maladie_id):
+    maladie = get_object_or_404(Maladie, id=maladie_id)
 
+    if request.method == 'POST':
+        form = MaladieForm(request.POST, request.FILES, instance=maladie)
+        if form.is_valid():
+   
+            form.save()
+            return redirect('maladie_list')  # Ensure this is the correct URL name
+    else:
+        form = MaladieForm(instance=maladie)
+
+    return render(request, 'maladie_form.html', {'form': form})  # Ensure correct template
 
 
 
@@ -69,7 +97,7 @@ class MaladieCreateView(CreateView):
     template_name = 'maladie_form.html'
     success_url = reverse_lazy('maladie_list')    
     def form_valid(self, form):
-        form.instance.owner = self.request.user  
+        form.instance.add_by = self.request.user  
         return super().form_valid(form)
  
 @login_required 

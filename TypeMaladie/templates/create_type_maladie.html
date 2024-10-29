@@ -6,10 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
     <!-- Favicon icon-->
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/favicon/favicon.ico' %}">
-
 
     <!-- Libs CSS -->
     <link href="{% static 'assets/fonts/feather/feather.css' %}" rel="stylesheet" />
@@ -23,10 +21,9 @@
     <link href="{% static 'assets/libs/tiny-slider/dist/tiny-slider.css' %}" rel="stylesheet">
     <link href="{% static 'assets/libs/tippy.js/dist/tippy.css' %}" rel="stylesheet">
 
-
     <!-- Theme CSS -->
     <link rel="stylesheet" href="{% static 'assets/css/theme.min.css' %}">
-    <title>Type Maladie Form</title>
+    <title>Disease Type Form</title>
 </head>
 
 <body>
@@ -34,7 +31,7 @@
         <!-- Card -->
         <div class="card mb-3">
             <div class="card-header border-bottom px-4 py-3">
-                <h4 class="mb-0">Create New Type Maladie</h4>
+                <h4 class="mb-0">Create New Disease Type</h4>
             </div>
 
             <!-- Card body -->
@@ -46,33 +43,40 @@
                         <label for="id_image" class="form-label">Upload Image</label>
                         {{ form.image }}
                     </div>
-                    <!-- Maladie Name -->
+                    <!-- Disease Name -->
                     <div class="form-group mb-3">
-                        <label for="id_nom" class="form-label">Nom de la Type maladie</label>
+                        <label for="id_nom" class="form-label">Name of the Disease Type</label>
                         {{ form.nom }}
                         <small class="form-text text-muted">Enter the name of the disease.</small>
                     </div>
 
-                    <!-- Maladie Description -->
+                    <!-- Disease Description -->
                     <div class="form-group mb-3">
-                        <label for="id_description" class="form-label">Description de la Type maladie</label>
+                        <label for="id_description" class="form-label">Description of the Disease Type</label>
                         {{ form.description }}
                         <small class="form-text text-muted">A brief summary of the disease.</small>
                     </div>
 
                     <!-- Causes -->
                     <div class="form-group mb-3">
-                        <label for="id_causes" class="form-label">is contagious </label>
-                        {{ form.is_contagious }}
+                        <label class="form-label">Is Contagious</label>
+                        <div class="form-check">
+                            {{ form.is_contagious }}
+                            <label class="form-check-label" for="id_is_contagious">
+                                This disease is contagious
+                            </label>
+                        </div>
                     </div>
+
                     <!-- Submit Button -->
-                    <button type="submit" class="btn btn-primary">Create Type Maladie</button>
+                    <button type="submit" class="btn btn-primary">Create Disease Type</button>
+                    <a href="{% url 'type_maladie_list' %}" class="btn btn-dark">
+                        Back
+                    </a>
                 </form>
             </div>
         </div>
     </div>
-
-
 </body>
 
 <!-- Script -->
@@ -102,7 +106,6 @@
 
 <!-- clipboard -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
-
 
 <!-- Theme JS -->
 <script src="{% static 'assets/js/theme.min.js' %}"></script>

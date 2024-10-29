@@ -44,7 +44,7 @@ client = OpenAI(api_key="sk-proj-aNDhXtZRcvHjdpPmK5Hk0K7m4SofCFM47XaxZSbJDpJ2NBo
 
 @login_required
 def chat_view(request):
-    return render(request, 'Templates/chat.html')
+    return render(request, 'chat.html')
 
 @method_decorator(csrf_exempt, name='dispatch')
 class ChatWithPreventionAI(View):
@@ -125,6 +125,9 @@ def prevention_detail(request, pk):
         if form.is_valid():
             feedback = form.save(commit=False)
             feedback.prevention = prevention 
+            current_user = request.user
+            print(current_user)
+            feedback.owner = current_user
             feedback.save()
             return redirect('prevention_detail', pk=prevention.pk)  
     else:
@@ -165,23 +168,23 @@ class PreventionDeleteView(DeleteView):
     success_url = reverse_lazy('prevention_list')
 
 # Function-based view for showing the details of a Prevention record
-@login_required 
-@role_required("DOCTOR")
-def prevention_detail(request, pk):
-    prevention = get_object_or_404(Prevention, pk=pk)
-    feedbacks = Feedback.objects.filter(prevention=prevention)  
-    if request.method == 'POST':
-        form = FeedbackForm(request.POST)
-        if form.is_valid():
-            feedback = form.save(commit=False)
-            feedback.prevention = prevention 
-            feedback.save()
-            return redirect('prevention_detail', pk=prevention.pk)  
-    else:
-        form = FeedbackForm() 
+# @login_required 
+# @role_required("DOCTOR")
+# def prevention_detail(request, pk):
+#     prevention = get_object_or_404(Prevention, pk=pk)
+#     feedbacks = Feedback.objects.filter(prevention=prevention)  
+#     if request.method == 'POST':
+#         form = FeedbackForm(request.POST)
+#         if form.is_valid():
+#             feedback = form.save(commit=False)
+#             feedback.prevention = prevention 
+#             feedback.save()
+#             return redirect('prevention_detail', pk=prevention.pk)  
+#     else:
+#         form = FeedbackForm() 
 
-    return render(request, 'prevention_detail.html', {
-        'prevention': prevention,
-        'feedbacks': feedbacks,
-        'form': form,  
-    })
+#     return render(request, 'prevention_detail.html', {
+#         'prevention': prevention,
+#         'feedbacks': feedbacks,
+#         'form': form,  
+#     })

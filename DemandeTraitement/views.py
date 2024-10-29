@@ -67,24 +67,21 @@ def create_rendezvous(request, demande_id):
     if request.method == 'POST':
         form = RendezVousForm(request.POST)
         if form.is_valid():
-            # Create a RendezVous instance but do not save it yet
             rendezvous = form.save(commit=False)
             date_str =str(rendezvous.date)
             date_object = datetime.fromisoformat(date_str)
-
-            # Convert to the required format for Google Calendar API (ISO 8601)
             formatted_date = date_object.isoformat()
             try:
                 link = main(
-                    "yacinbnsalh@gmail.com",  # Doctor's email
-                    "wiem.benaraar@esprit.tn",  # Farmer's email
-                    formatted_date ,  # Ensure the date is in the correct format (string)
-                    demande.title_desease  # Title for the event
+                    "yacinbnsalh@gmail.com",
+                    "wiem.benaraar@esprit.tn", 
+                    formatted_date , 
+                    demande.title_desease
                 )
-                rendezvous.rdv_link = link  # Save the Google Calendar link in the rendezvous instance
-                rendezvous.save()  # Save the rendezvous instance to the database
-                
-                # Update the demande status and save it
+                rendezvous.rdv_link = link 
+                current_user = request.user
+                demande.from_farmer = current_user
+                rendezvous.save()
                 demande.rendezv = rendezvous
                 demande.status = "approuve"
                 demande.save()
